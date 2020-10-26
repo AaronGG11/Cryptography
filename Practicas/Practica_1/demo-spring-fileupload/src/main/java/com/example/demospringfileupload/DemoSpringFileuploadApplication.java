@@ -10,6 +10,9 @@ public class DemoSpringFileuploadApplication
 	public static void main(String[] args)
 	{
 		//SpringApplication.run(DemoSpringFileuploadApplication.class, args);
-		Vigenere.encrypt("abcdefghijklmnopqrstuvwxyz","aaron");
+		String cipher_text =  Vigenere.encrypt("hola mundo","secreto");
+		String decipher_text = Vigenere.decrypt(cipher_text,"secreto");
+
+		System.out.println(decipher_text);
 	}
 }

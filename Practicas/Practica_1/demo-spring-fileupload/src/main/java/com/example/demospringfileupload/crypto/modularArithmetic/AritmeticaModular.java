@@ -1,7 +1,7 @@
 package com.example.demospringfileupload.crypto.modularArithmetic;
 
 public class AritmeticaModular {
-    public static Integer inversoAditivo(Integer longitud_de_alfabeto, Integer numero)
+    public static int inversoAditivo(Integer longitud_de_alfabeto, Integer numero)
     {
         if(numero > 0) {
             return (longitud_de_alfabeto - numero);
@@ -11,8 +11,8 @@ public class AritmeticaModular {
         }
     }
 
-    public static Integer inversoMultiplicativo()
+    public static int inversoMultiplicativo()
     {
-        return null;
+        return 0;
     }
 }
