@@ -12,6 +12,9 @@ public class DemoSpringFileuploadApplication
 	public static void main(String[] args)
 	{
 		//SpringApplication.run(DemoSpringFileuploadApplication.class, args);
-		System.out.println(AritmeticaModular.InversoMultiplicativo(83,173));
+		String plain_text = "hola mundo";
+		String cipher_text = Affine.Encrypt(plain_text, 256, 3, 5);
+		String decipher_text = Affine.Decrypt(cipher_text, 256, 3, 5);
+		System.out.println(decipher_text);
 	}
 }
