@@ -17,7 +17,7 @@ public class Vigenere {
             K, es el valor del carácter de la llave
             256, es el tamanio del alfabeto
      */
-    public static String encrypt(String plain_text, String key)
+    public static String Encrypt(String plain_text, String key)
     {
         StringBuilder cipher_text = new StringBuilder();
 
@@ -47,7 +47,7 @@ public class Vigenere {
         -K, es el inverso aditivo del carácter de la llave
         256, es el tamanio del alfabeto
  */
-    public static String decrypt(String cipher_text, String key)
+    public static String Decrypt(String cipher_text, String key)
     {
         // Cifrar la llave
         StringBuilder cipher_key = new StringBuilder();
@@ -55,7 +55,7 @@ public class Vigenere {
 
         for(int i=0; i<key.length(); i++)
         {
-            cipher_key.append((char) AritmeticaModular.inversoAditivo(256, (int)key.charAt(i)));
+            cipher_key.append((char) AritmeticaModular.InversoAditivo(256, (int)key.charAt(i)));
         }
 
         int counter_key_value = 0;
@@ -66,7 +66,7 @@ public class Vigenere {
             }
 
             int C_n = (int)cipher_text.charAt(i);
-            int K = AritmeticaModular.inversoAditivo(256, (int)key.charAt(counter_key_value));
+            int K = AritmeticaModular.InversoAditivo((int)key.charAt(counter_key_value), 256);
             int P_n = (C_n + K) % 256;
 
             decipher_text.append((char)P_n);
