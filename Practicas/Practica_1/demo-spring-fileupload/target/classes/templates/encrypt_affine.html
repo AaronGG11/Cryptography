@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cifrado</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <link rel="icon" href="https://styles.redditmedia.com/t5_2qhvx/styles/communityIcon_0ds53vjc9rp31.png?width=256&s=d8815c4b6b5f45c32dcafa401e8d780a1f0cb97c" type="image/gif" sizes="16x16">
+</head>
+
+<body>
+
+<div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(255, 0, 0, 0.3);">
+    <h1>Cryptography 3CM3</h1>
+    <p>Profesor - Nidia Asunci&oacute;n Cortez Duarte</p>
+    <p>Práctica 1 - Cifrador Vegenere, Affine y Aritmética modular</p>
+    <p>Alumno - Aar&oacute;n Antonio Garc&iacute;a Gonz&aacute;lez</p>
+    <h2>Cifrador Affine</h2>
+</div>
+
+<form class="container">
+    <div class="form-group row">
+        <label for="inputFile" class="col-sm-2 col-form-label">Archivo</label>
+        <div class="col-sm-10">
+            <input type="file" class="form-control-file" id="inputFile">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="inputAlfabeto" class="col-sm-2 col-form-label">Longitud de alfabeto</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" id="inputAlfabeto" placeholder="Longitud de alfabeto">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="inputAlpha" class="col-sm-2 col-form-label">Alpha</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputAlpha" placeholder="Alpha">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="inputBeta" class="col-sm-2 col-form-label">Beta</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputBeta" placeholder="Beta">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">Alpha y beta</div>
+        <div class="col-sm-10">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck1">
+                <label class="form-check-label" for="gridCheck1">
+                    Random
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <input type="submit" class="btn btn-outline-danger btn-block" value="Cifrar"/>
+        </div>
+    </div>
+</form>
+</body>
+</html>
