@@ -5,6 +5,7 @@ import java.io.*;
 import com.example.demospringfileupload.Model.ModelVigenereEncrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,34 +33,35 @@ public class FormControllerVigenere {
 		return "decrypt_affine";
 	}
 
-	@PostMapping("/e_upload")
-	public String uploadFileE(ModelVigenereEncrypt vigenere, RedirectAttributes attributes) throws Exception
-	{
-		System.out.println(vigenere.toString());
-		return "redirect:/status";
-	}
-
-
-	@PostMapping("/d_upload")
-	public String uploadFileD() throws Exception
-	{
-		new ModelAndView("form").addObject("post", new ModelVigenereEncrypt());
-		// verificar que hay datos
-		/*
-		if (file == null || file.isEmpty()) {
-			attributes.addFlashAttribute("message", "Por favor seleccione un archivo");
-			return "redirect:status";
-		}*/
-
-
-
-		return "redirect:/status";
-	}
-
 	@GetMapping("/status")
 	public String status()
 	{
 		return "status";
 	}
 
+
+
+	@PostMapping("/e_upload")
+	public String uploadFileE(@ModelAttribute("vigenere") ModelVigenereEncrypt vigenere) throws IOException {
+
+		String clave = new String(vigenere.getClave().getBytes());
+		int longitud_alfabeto = vigenere.getLongitud_alfabeto();
+		String originalString = new String(vigenere.getArchivo().getBytes());
+
+
+		System.out.println(originalString);
+		System.out.println(clave);
+		System.out.println(longitud_alfabeto);
+		System.out.println(vigenere.isEsAleatorio());
+
+		return "redirect:/status";
+	}
+
+
+	@PostMapping("/d_upload")
+	public String uploadFileD()
+	{
+
+		return "redirect:/status";
+	}
 }
