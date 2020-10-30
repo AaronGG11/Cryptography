@@ -27,9 +27,9 @@ public class Vigenere {
 
             if(length_alphabet == 26){
                 if(P_n < 97 || P_n > 122){
-                    C_n = 32;
+                    C_n = P_n;
                 }else{
-                    C_n = ( ( P_n + K -194 ) % length_alphabet ) + 65;
+                    C_n = ( ( P_n + K - 194 ) % length_alphabet ) + 65;
                 }
             }else{
                 C_n = (P_n + K) % length_alphabet;
@@ -55,7 +55,6 @@ public class Vigenere {
         StringBuilder cipher_key = new StringBuilder();
         StringBuilder decipher_text = new StringBuilder();
 
-
         for(int i=0; i<key.length(); i++)
         {
             cipher_key.append((char) AritmeticaModular.InversoAditivo(length_alphabet, (int) key.charAt(i)));
@@ -74,9 +73,9 @@ public class Vigenere {
 
             if(length_alphabet == 26){ // para alfabeto ingles
                 if(C_n < 65 || C_n > 90){
-                    P_n = 32;
+                    P_n = C_n;
                 }else{
-                    P_n = (( C_n + K - 130 ) % length_alphabet) + 97;
+                    P_n = (( C_n + K - 130 + 26) % length_alphabet) + 97;
                 }
             }else{
                 P_n = (C_n + K) % length_alphabet;

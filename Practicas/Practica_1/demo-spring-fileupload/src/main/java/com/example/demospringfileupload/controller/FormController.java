@@ -3,6 +3,7 @@ package com.example.demospringfileupload.controller;
 import java.io.*;
 import java.util.Random;
 
+import com.example.demospringfileupload.Model.ModelVigenereDecrypt;
 import com.example.demospringfileupload.Model.ModelVigenereEncrypt;
 import com.example.demospringfileupload.crypto.Vigenere;
 import com.example.demospringfileupload.crypto.utilities.Utilities;
@@ -10,13 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class FormControllerVigenere {
+public class FormController {
 
 	@GetMapping("/encrypt_vigenere")
 	public String encryptVigenere() {
@@ -44,7 +42,7 @@ public class FormControllerVigenere {
 
 
 
-	@PostMapping("/e_upload")
+	@PostMapping("/ev_upload")
 	public String uploadFileE(@ModelAttribute("vigenere") ModelVigenereEncrypt vigenere, RedirectAttributes attributes) throws IOException {
 		ModelVigenereEncrypt aux = new ModelVigenereEncrypt();
 
@@ -73,10 +71,7 @@ public class FormControllerVigenere {
 			builder.append(File.separator);
 			builder.append("Ejemplos");
 			builder.append(File.separator);
-			builder.append(aux.getArchivo().getOriginalFilename());
-			builder.append(aux.getArchivo().getOriginalFilename().replace(".txt",".vig.txt"));
-
-			// Section encryption
+			builder.append(aux.getArchivo().getOriginalFilename().replace(".txt","_E.vig.txt"));
 
 			// Verificar si es llave aleatoria y no
 			String secret_key;
@@ -93,6 +88,7 @@ public class FormControllerVigenere {
 				secret_key = aux.getClave();
 			}
 
+			// Section encryption
 			String plain_text = new String(aux.getArchivo().getBytes());
 			String encrypted_text = Vigenere.Encrypt(plain_text, secret_key, aux.getLongitud_alfabeto());
 
@@ -103,7 +99,7 @@ public class FormControllerVigenere {
 			bw.write(encrypted_text);
 			bw.close();
 
-			attributes.addFlashAttribute("message", "Archivo encriptado correctamente ["+builder.toString()+"]\nLlave: " + secret_key);
+			attributes.addFlashAttribute("message", "Archivo cifrado correctamente ["+builder.toString()+"]\nLlave: " + secret_key);
 			attributes.addFlashAttribute("content", encrypted_text);
 
 			return "redirect:/status";
@@ -111,10 +107,52 @@ public class FormControllerVigenere {
 	}
 
 
-	@PostMapping("/d_upload")
-	public String uploadFileD()
-	{
+	@PostMapping("/dv_upload")
+	public String uploadFileD(@ModelAttribute("vigenere") ModelVigenereDecrypt vigenere, RedirectAttributes attributes) throws IOException {
+		ModelVigenereDecrypt aux = new ModelVigenereDecrypt();
 
-		return "redirect:/status";
+		aux.setArchivo(vigenere.getArchivo());
+		aux.setClave(vigenere.getClave());
+		aux.setLongitud_alfabeto(vigenere.getLongitud_alfabeto());
+
+		// El archivo no válido
+		if (aux.getArchivo().getBytes().toString() == null || aux.getArchivo().getBytes().toString().isEmpty()) {
+			attributes.addFlashAttribute("message", "Por favor seleccione un archivo válido.");
+			return "redirect:status";
+		} // Clave no válida, porque es no aleatoria y es vacia o no se lleno el campo
+		else if (aux.getClave().isEmpty() || (aux.getClave().length() <= 0)) {
+			attributes.addFlashAttribute("message", "Clave no válida.");
+			return "redirect:status";
+		} // Alfabeto no válido, porque es de longitud 0 o menor
+		else if(aux.getLongitud_alfabeto() <= 0){
+			attributes.addFlashAttribute("message", "Alfabeto no válido.");
+			return "redirect:status";
+		} // Los argumentos son correctos
+		else{
+			// Making path
+			StringBuilder builder = new StringBuilder();
+			builder.append(System.getProperty("user.home"));
+			builder.append(File.separator);
+			builder.append("Ejemplos");
+			builder.append(File.separator);
+			builder.append(aux.getArchivo().getOriginalFilename().replace("_E.vig.txt","_D.vig.txt"));
+
+			// Section encryption
+			String secret_key = aux.getClave();
+			String cipher_text = new String(aux.getArchivo().getBytes());
+			String plain_text = Vigenere.Decrypt(cipher_text, secret_key, aux.getLongitud_alfabeto());
+
+			// writing the file
+			File archivo = new File(builder.toString());
+			BufferedWriter bw;
+			bw = new BufferedWriter(new FileWriter(archivo));
+			bw.write(plain_text);
+			bw.close();
+
+			attributes.addFlashAttribute("message", "Archivo descifrado correctamente ["+builder.toString()+"]\nLlave: " + secret_key);
+			attributes.addFlashAttribute("content", plain_text);
+
+			return "redirect:/status";
+		}
 	}
 }
