@@ -1,8 +1,11 @@
 package com.example.demospringfileupload.controller;
 
 import java.io.*;
+import java.util.Random;
 
 import com.example.demospringfileupload.Model.ModelVigenereEncrypt;
+import com.example.demospringfileupload.crypto.Vigenere;
+import com.example.demospringfileupload.crypto.utilities.Utilities;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -71,31 +74,40 @@ public class FormControllerVigenere {
 			builder.append("Ejemplos");
 			builder.append(File.separator);
 			builder.append(aux.getArchivo().getOriginalFilename());
-			builder.append(".vig");
+			builder.append(aux.getArchivo().getOriginalFilename().replace(".txt",".vig.txt"));
 
 			// Section encryption
 
 			// Verificar si es llave aleatoria y no
+			String secret_key;
 			if(aux.isEsAleatorio()){
-
+				if(aux.getLongitud_alfabeto() == 26){ // para alfabeto ingles
+					// llave de lontigud aleatoria entre 7 y 11 caracteres
+					secret_key = Utilities.GenerarLLave(aux.getLongitud_alfabeto(), new Random().nextInt(5) + 7);
+				}else{
+					// llave de lontigud aleatoria entre 64 y 128 caracteres
+					secret_key = Utilities.GenerarLLave(aux.getLongitud_alfabeto(), new Random().nextInt(65) + 128);
+				}
 			}
 			else {
-				final String secretKey = aux.getClave();
+				secret_key = aux.getClave();
 			}
-			
-			String originalString = new String(file.getBytes());
-			String encryptedString = AES.encrypt(originalString, secretKey);
 
+			String plain_text = new String(aux.getArchivo().getBytes());
+			String encrypted_text = Vigenere.Encrypt(plain_text, secret_key, aux.getLongitud_alfabeto());
 
+			// writing the file
+			File archivo = new File(builder.toString());
+			BufferedWriter bw;
+			bw = new BufferedWriter(new FileWriter(archivo));
+			bw.write(encrypted_text);
+			bw.close();
 
+			attributes.addFlashAttribute("message", "Archivo encriptado correctamente ["+builder.toString()+"]\nLlave: " + secret_key);
+			attributes.addFlashAttribute("content", encrypted_text);
+
+			return "redirect:/status";
 		}
-
-
-
-
-
-
-		return "redirect:/status";
 	}
 
 
