@@ -76,13 +76,8 @@ public class FormController {
 			// Verificar si es llave aleatoria y no
 			String secret_key;
 			if(aux.isEsAleatorio()){
-				if(aux.getLongitud_alfabeto() == 26){ // para alfabeto ingles
-					// llave de lontigud aleatoria entre 7 y 11 caracteres
-					secret_key = Utilities.GenerarLLave(aux.getLongitud_alfabeto(), new Random().nextInt(5) + 7);
-				}else{
-					// llave de lontigud aleatoria entre 64 y 128 caracteres
-					secret_key = Utilities.GenerarLLave(aux.getLongitud_alfabeto(), new Random().nextInt(65) + 128);
-				}
+				// llave de lontigud aleatoria entre 64 y 128 caracteres
+				secret_key = Utilities.GenerarLLave(aux.getLongitud_alfabeto(), new Random().nextInt(65) + 128);
 			}
 			else {
 				secret_key = aux.getClave();
@@ -137,7 +132,7 @@ public class FormController {
 			builder.append(File.separator);
 			builder.append(aux.getArchivo().getOriginalFilename().replace("_E.vig.txt","_D.vig.txt"));
 
-			// Section encryption
+			// Section decryption
 			String secret_key = aux.getClave();
 			String cipher_text = new String(aux.getArchivo().getBytes());
 			String plain_text = Vigenere.Decrypt(cipher_text, secret_key, aux.getLongitud_alfabeto());
