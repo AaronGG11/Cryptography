@@ -9,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <link rel="icon" href="https://styles.redditmedia.com/t5_2qhvx/styles/communityIcon_0ds53vjc9rp31.png?width=256&s=d8815c4b6b5f45c32dcafa401e8d780a1f0cb97c" type="image/gif" sizes="16x16">
+    <link rel="icon" href="https://www.iconarchive.com/download/i87099/graphicloads/colorful-long-shadow/Lock.ico" type="image/gif" sizes="16x16">
 </head>
 
 <body>
@@ -19,10 +19,10 @@
     <p>Profesor - Nidia Asunci&oacute;n Cortez Duarte</p>
     <p>Práctica 1 - Cifrador Vegenere, Affine y Aritmética modular</p>
     <p>Alumno - Aar&oacute;n Antonio Garc&iacute;a Gonz&aacute;lez</p>
-    <h2>Cifrador Vigenere</h2>
+    <h2>Cifrador Affine</h2>
 </div>
 
-<form action="#" th:action="@{/ev_upload}" th:object="${vigenere}" method="post" class="container" enctype="multipart/form-data">
+<form action="#" th:action="@{/ea_upload}" th:object="${affine}" method="post" class="container" enctype="multipart/form-data">
     <div class="form-group row">
         <label for="archivo" class="col-sm-2 col-form-label">Archivo</label>
         <div class="col-sm-10">
@@ -38,14 +38,21 @@
     </div>
 
     <div class="form-group row">
-        <label for="clave" class="col-sm-2 col-form-label">Password</label>
+        <label for="alpha" class="col-sm-2 col-form-label">Alpha</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="clave" name="clave" placeholder="Password" th:object="${clave}">
+            <input type="password" class="form-control" id="alpha" name="alpha" placeholder="Alpha" th:object="${alpha}">
         </div>
     </div>
 
     <div class="form-group row">
-        <div class="col-sm-2">Password</div>
+        <label for="beta" class="col-sm-2 col-form-label">Beta</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="beta" name="beta" placeholder="Beta" th:object="${beta}">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">Alpha y Beta</div>
         <div class="col-sm-10">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="esAleatorio" name="esAleatorio" th:object="${esAleatorio}">
@@ -56,7 +63,6 @@
         </div>
     </div>
     </div>
-
 
     <div class="form-group row">
         <div class="col-sm-12">

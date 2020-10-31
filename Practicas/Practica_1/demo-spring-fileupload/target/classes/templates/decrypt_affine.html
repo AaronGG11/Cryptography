@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Descifrado</title>
     <meta charset="utf-8">
@@ -9,9 +9,8 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <link rel="icon" href="https://styles.redditmedia.com/t5_2qhvx/styles/communityIcon_0ds53vjc9rp31.png?width=256&s=d8815c4b6b5f45c32dcafa401e8d780a1f0cb97c" type="image/gif" sizes="16x16">
+    <link rel="icon" href="https://www.iconarchive.com/download/i85633/graphicloads/100-flat/unlock.ico" type="image/gif" sizes="16x16">
 </head>
-
 <body>
 
 <div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(37, 179, 223, 0.3);">
@@ -22,32 +21,32 @@
     <h2>Descifrador Affine</h2>
 </div>
 
-<form class="container">
+<form action="#" th:action="@{/da_upload}" th:object="${affine}" method="post" class="container" enctype="multipart/form-data">
     <div class="form-group row">
-        <label for="inputFile" class="col-sm-2 col-form-label">Archivo</label>
+        <label for="archivo" class="col-sm-2 col-form-label">Archivo</label>
         <div class="col-sm-10">
-            <input type="file" class="form-control-file" id="inputFile">
+            <input type="file" class="form-control-file" id="archivo" name="archivo" th:object="${archivo}">
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="inputAlfabeto" class="col-sm-2 col-form-label">Longitud de alfabeto</label>
+        <label for="longitud_alfabeto" class="col-sm-2 col-form-label">Longitud de alfabeto</label>
         <div class="col-sm-10">
-            <input type="number" class="form-control" id="inputAlfabeto" placeholder="Longitud de alfabeto">
+            <input  type="number" class="form-control" id="longitud_alfabeto" name="longitud_alfabeto" placeholder="Longitud de alfabeto" th:object="${longitud_alfabeto}">
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="inputAlpha" class="col-sm-2 col-form-label">Alpha</label>
+        <label for="alpha" class="col-sm-2 col-form-label">Alpha</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputAlpha" placeholder="Alpha">
+            <input type="password" class="form-control" id="alpha" name="alpha" placeholder="Alpha" th:object="${alpha}">
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="inputBeta" class="col-sm-2 col-form-label">Beta</label>
+        <label for="beta" class="col-sm-2 col-form-label">Beta</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputBeta" placeholder="Beta">
+            <input type="password" class="form-control" id="beta" name="beta" placeholder="Beta" th:object="${beta}">
         </div>
     </div>
 
