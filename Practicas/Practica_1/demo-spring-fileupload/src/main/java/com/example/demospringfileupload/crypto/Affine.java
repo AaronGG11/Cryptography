@@ -33,7 +33,7 @@ public class Affine {
     }
 
      /*
-     *  aplicando la formula de des cifrado: P_n = alpha^-1 * [ C_n + (-beta) ] mod longitud_del_alfabeto, donde:
+     *  Aplicando la formula de des cifrado: P_n = alpha^-1 * [ C_n + (-beta) ] mod longitud_del_alfabeto, donde:
      *  C_n, es el carácter del texto en claro descifrado
      *  P_n, es la letra de la posicion n del texto cifrado
      *  alpha, es el valor multiplicativo de la llave en inverso multiplicativo
@@ -52,7 +52,6 @@ public class Affine {
 
             decipher_text.append((char)P_n);
         }
-
         return decipher_text.toString();
     }
 }
