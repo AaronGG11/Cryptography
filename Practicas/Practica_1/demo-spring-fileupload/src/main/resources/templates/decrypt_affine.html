@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <title>Descifrado</title>
+    <title>Cifrado</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -22,32 +22,32 @@
     <h2>Descifrador Affine</h2>
 </div>
 
-<form class="container">
+<form action="#" th:action="@{/da_upload}" th:object="${affine}" method="post" class="container" enctype="multipart/form-data">
     <div class="form-group row">
-        <label for="inputFile" class="col-sm-2 col-form-label">Archivo</label>
+        <label for="archivo" class="col-sm-2 col-form-label">Archivo</label>
         <div class="col-sm-10">
-            <input type="file" class="form-control-file" id="inputFile">
+            <input type="file" class="form-control-file" id="archivo" name="archivo" th:object="${archivo}">
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="inputAlfabeto" class="col-sm-2 col-form-label">Longitud de alfabeto</label>
+        <label for="longitud_alfabeto" class="col-sm-2 col-form-label">Longitud de alfabeto</label>
         <div class="col-sm-10">
-            <input type="number" class="form-control" id="inputAlfabeto" placeholder="Longitud de alfabeto">
+            <input  type="number" class="form-control" id="longitud_alfabeto" name="longitud_alfabeto" placeholder="Longitud de alfabeto" th:object="${longitud_alfabeto}">
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="inputAlpha" class="col-sm-2 col-form-label">Alpha</label>
+        <label for="alpha" class="col-sm-2 col-form-label">Alpha</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputAlpha" placeholder="Alpha">
+            <input type="password" class="form-control" id="alpha" name="alpha" placeholder="Alpha" th:object="${alpha}">
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="inputBeta" class="col-sm-2 col-form-label">Beta</label>
+        <label for="beta" class="col-sm-2 col-form-label">Beta</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputBeta" placeholder="Beta">
+            <input type="password" class="form-control" id="beta" name="beta" placeholder="Beta" th:object="${beta}">
         </div>
     </div>
 
