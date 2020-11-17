@@ -64,7 +64,7 @@ public class FileUploadController {
 
 
 		attributes.addFlashAttribute("message", "Archivo descifrado correctamente ");
-		attributes.addFlashAttribute("content", "ok");
+		attributes.addFlashAttribute("content", img);
 
 		return "redirect:/status";
 	}
