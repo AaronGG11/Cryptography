@@ -59,12 +59,18 @@ public class FileUploadController {
 
 		// Guardar imagen ya procesada
 		File outputfile = new File(builder.toString());
-		ImageIO.write(img, "bmp", outputfile);
+		//ImageIO.write(img, "bmp", outputfile);
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write( img, "bmp", baos );
+		baos.flush();
+		byte[] imageInByte = baos.toByteArray();
+		baos.close();
 
 
 
 		attributes.addFlashAttribute("message", "Archivo descifrado correctamente ");
-		attributes.addFlashAttribute("content", img);
+		attributes.addFlashAttribute("content", imageInByte);
 
 		return "redirect:/status";
 	}
