@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Cifrar</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(130,209,87,0.38);">
+        <h1>Cryptography 3CM3</h1>
+        <p>Profesor - Nidia Asunci&oacute;n Cortez Duarte</p>
+        <p>Práctica 2 - DES con modos de operación</p>
+        <p>Alumno #1- Aar&oacute;n Antonio Garc&iacute;a Gonz&aacute;lez</p>
+        <p>Alumno #2 - Brian Gonzalez Amaro</p>
+        <h2>Cifrar</h2>
+    </div>
+
+    <div class="container text-center">
+        <form action="/e_upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file"/><br><br>
+            <input type="submit" class="btn btn-outline-danger btn-block" value="Cargar"/>
+        </form>
+    </div><br>
+</body>
+</html>
