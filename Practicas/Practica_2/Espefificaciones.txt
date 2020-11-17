@@ -1,0 +1,33 @@
+Modos de operación 
+    -Electronic CodeBook
+    -Cipher Block Chaining
+    -Cipher Feedback
+    -Output Feedback
+
+Práctica DES
+    -Input: thunderCats.bpm
+    -Output:
+        -thunderCats_ecb.bmp
+        -thunderCats_cbc.bmp
+        -thunderCats_cfb.bmp
+        -thunderCats_ofb.bmp
+
+    -input: paisaje.bmp
+    -Output:
+        -paisaje_ecb.bmp
+        -paisaje_cbc.bmp
+        -paisaje_cfb.bmp
+        -paisaje_ofb.bmp
+
+    -Pruebas de descifrado
+        -Descifrar una por una correctamente
+        -Descifrar *_cbc.bmp con el modo Cipher Feedback
+        -Descifrar *_cfb.bmp con el modo Electronic CodeBook
+        -Cifrar dos veces *_cfb.bmp con el modo Output Feedback
+        -A la imagen cifrada *_cbc.bmp dibujarle una forma y Descifrar
+        -A la imagen cifrada *_cfb.bmp dibujarle una forma y Descifrar
+
+    -Fecha limite:
+        Jueves 19 de Noviembre de 2020
+
+
