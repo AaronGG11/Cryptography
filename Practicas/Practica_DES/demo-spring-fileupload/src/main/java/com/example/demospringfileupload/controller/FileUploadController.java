@@ -47,15 +47,24 @@ public class FileUploadController {
 
 
 
+		// Making path
+		StringBuilder builder = new StringBuilder();
+		builder.append("..");
+		builder.append(File.separator);
+		builder.append("resultados");
+		builder.append(File.separator);
+		builder.append("img_saved.bmp");
 
-		InputStream in = new ByteArrayInputStream(aux.getImagen().getBytes());
+		BufferedImage img = ImageIO.read(aux.getImagen().getInputStream());
 
-		BufferedImage img = ImageIO.read(in);
+		// Guardar imagen ya procesada
+		File outputfile = new File(builder.toString());
+		ImageIO.write(img, "bmp", outputfile);
 
 
 
 		attributes.addFlashAttribute("message", "Archivo descifrado correctamente ");
-		attributes.addFlashAttribute("content", img);
+		attributes.addFlashAttribute("content", "ok");
 
 		return "redirect:/status";
 	}
