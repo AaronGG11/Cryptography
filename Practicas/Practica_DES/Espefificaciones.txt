@@ -27,6 +27,8 @@ Práctica DES
         -A la imagen cifrada *_cbc.bmp dibujarle una forma y Descifrar
         -A la imagen cifrada *_cfb.bmp dibujarle una forma y Descifrar
 
+    -Clave de cifrado y descifrado: La da el usuario
+
     -Fecha limite:
         Jueves 19 de Noviembre de 2020
 

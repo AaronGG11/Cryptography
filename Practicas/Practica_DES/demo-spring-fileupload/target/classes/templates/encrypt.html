@@ -9,25 +9,77 @@
   <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <link rel="icon" href="https://www.iconarchive.com/download/i87099/graphicloads/colorful-long-shadow/Lock.ico" type="image/gif" sizes="16x16">
 </head>
 
 <body>
 
-    <div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(130,209,87,0.38);">
+    <div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(255, 0, 0, 0.3);">
         <h1>Cryptography 3CM3</h1>
         <p>Profesor - Nidia Asunci&oacute;n Cortez Duarte</p>
         <p>Práctica 2 - DES con modos de operación</p>
         <p>Alumno #1- Aar&oacute;n Antonio Garc&iacute;a Gonz&aacute;lez</p>
         <p>Alumno #2 - Brian Gonzalez Amaro</p>
-        <h2>Cifrar</h2>
+        <h2>Cifrador DES</h2>
     </div>
 
-    <div class="container text-center">
-        <h2>Encriptar</h2>
-        <form action="/e_upload" method="POST" enctype="multipart/form-data">
-            <input type="file" name="file"/><br><br>
-            <input type="submit" class="btn btn-outline-danger btn-block" value="Cargar"/>
-        </form>
-    </div><br>
+    <form action="#" th:action="@{/ev_upload}" th:object="${vigenere}" method="post" class="container" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label for="imagen" class="col-sm-2 col-form-label">Imagen</label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control-file" id="imagen" name="imagen" th:object="${imagen}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="clave" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="clave" name="clave" placeholder="Password" th:object="${clave}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-2">Modo de operación</div>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <div class="col-sm-2">
+                        <input class="form-check-input" type="checkbox" id="ecb" name="ecb" th:object="${ecb}">
+                        <label class="form-check-label" for="ecb">
+                            ECB
+                        </label>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <input class="form-check-input" type="checkbox" id="cbc" name="cbc" th:object="${cbc}">
+                        <label class="form-check-label" for="cbc">
+                            CBC
+                        </label>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <input class="form-check-input" type="checkbox" id="cfb" name="cfb" th:object="${cfb}">
+                        <label class="form-check-label" for="cfb">
+                            CFB
+                        </label>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <input class="form-check-input" type="checkbox" id="ofb" name="ofb" th:object="${ofb}">
+                        <label class="form-check-label" for="ofb">
+                            OFB
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <input type="submit" class="btn btn-outline-danger btn-block" value="Cifrar"/>
+            </div>
+        </div>
+    </form>
 </body>
 </html>
