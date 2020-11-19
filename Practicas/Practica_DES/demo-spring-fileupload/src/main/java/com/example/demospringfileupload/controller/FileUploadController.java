@@ -2,17 +2,12 @@ package com.example.demospringfileupload.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import com.example.demospringfileupload.crypto.AES;
 import com.example.demospringfileupload.model.DESmodel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.imageio.ImageIO;
@@ -58,7 +53,7 @@ public class FileUploadController {
 		BufferedImage img = ImageIO.read(aux.getImagen().getInputStream());
 
 		// Guardar imagen ya procesada
-		File outputfile = new File(builder.toString());
+		//File outputfile = new File(builder.toString());
 		//ImageIO.write(img, "bmp", outputfile);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -66,6 +61,8 @@ public class FileUploadController {
 		baos.flush();
 		byte[] imageInByte = baos.toByteArray();
 		baos.close();
+
+
 
 
 
