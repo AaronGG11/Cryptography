@@ -49,7 +49,18 @@ public class DES {
         }
 
         if (mode.equals("CBC")) {
-
+            try
+            {
+                setKey(secret);
+                Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+                cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+                return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
+            }
+            catch (Exception e)
+            {
+                System.out.println("Error while encrypting: " + e.toString());
+            }
+            return null;
         }
 
         if (mode.equals("CFB")) {
@@ -82,7 +93,18 @@ public class DES {
         }
 
         if (mode.equals("CBC")) {
-
+            try
+            {
+                setKey(secret);
+                Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+                cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+                return Base64.getEncoder().encodeToString(cipher.doFinal(strToDecrypt.getBytes("UTF-8")));
+            }
+            catch (Exception e)
+            {
+                System.out.println("Error while encrypting: " + e.toString());
+            }
+            return null;
         }
 
         if (mode.equals("CFB")) {
