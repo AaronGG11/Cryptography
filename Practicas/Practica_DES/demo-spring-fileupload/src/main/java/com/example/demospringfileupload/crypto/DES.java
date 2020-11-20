@@ -71,8 +71,12 @@ public class DES {
             try
             {
                 setKey(secret);
+
+                byte[] initializationVector = { 11, 22, 33, 44, 99, 88, 77, 66 };
+                AlgorithmParameterSpec algorithmParameterSpec = new IvParameterSpec(initializationVector);
+
                 Cipher cipher = Cipher.getInstance("DES/CFB/PKCS5Padding");
-                cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+                cipher.init(Cipher.ENCRYPT_MODE, secretKey, algorithmParameterSpec);
                 return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
             }
             catch (Exception e)
@@ -120,8 +124,7 @@ public class DES {
         if (mode.equals("CBC")) {
             try
             {
-                //setKey(secret);
-
+                setKey(secret);
                 byte[] initializationVector = { 11, 22, 33, 44, 99, 88, 77, 66 };
                 AlgorithmParameterSpec algorithmParameterSpec = new IvParameterSpec(initializationVector);
 
@@ -141,9 +144,14 @@ public class DES {
             try
             {
                 setKey(secret);
+
+                byte[] initializationVector = { 11, 22, 33, 44, 99, 88, 77, 66 };
+                AlgorithmParameterSpec algorithmParameterSpec = new IvParameterSpec(initializationVector);
+
                 Cipher cipher = Cipher.getInstance("DES/CFB/PKCS5Padding");
-                cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-                return Base64.getEncoder().encodeToString(cipher.doFinal(strToDecrypt.getBytes("UTF-8")));
+                cipher.init(Cipher.DECRYPT_MODE, secretKey, algorithmParameterSpec);
+
+                return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
             }
             catch (Exception e)
             {
