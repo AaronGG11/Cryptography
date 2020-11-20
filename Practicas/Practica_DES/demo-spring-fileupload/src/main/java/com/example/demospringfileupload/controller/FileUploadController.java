@@ -3,6 +3,7 @@ package com.example.demospringfileupload.controller;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
+import com.example.demospringfileupload.crypto.DES;
 import com.example.demospringfileupload.model.DESmodel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,8 @@ public class FileUploadController {
 	@PostMapping("/e_upload")
 	public String uploadFileE(@ModelAttribute("DES") DESmodel des, RedirectAttributes attributes) throws Exception
 	{
+		 Integer header_size = 54;
+
 		DESmodel aux = new DESmodel();
 		aux.setImagen(des.getImagen());
 		aux.setClave(des.getClave());
@@ -39,8 +42,6 @@ public class FileUploadController {
 		aux.setCbc(des.getCbc());
 		aux.setCfb(des.getCfb());
 		aux.setOfb(des.getOfb());
-
-
 
 		// Making path
 		StringBuilder builder = new StringBuilder();
@@ -61,6 +62,21 @@ public class FileUploadController {
 		baos.flush();
 		byte[] imageInByte = baos.toByteArray();
 		baos.close();
+
+		byte[] finalBytes = new byte[(int)imageInByte.length];
+		byte[] encryptedBytes = new byte[(int)imageInByte.length - header_size];
+
+		for(int i = 0, j=0 ; i < imageInByte.length; i++) {
+			if(i < header_size) {
+				finalBytes[i] = imageInByte[i];
+			}else {
+				encryptedBytes[j++] = imageInByte[i];
+			}
+		}
+
+		
+
+
 
 
 
