@@ -1,10 +1,12 @@
 package com.example.demospringfileupload.crypto;
 
 import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.AlgorithmParameterSpec;
 import java.util.Arrays;
 import java.util.Base64;
 
@@ -19,7 +21,7 @@ public class DES {
             key = myKey.getBytes("UTF-8");
             sha = MessageDigest.getInstance("SHA-1");
             key = sha.digest(key);
-            key = Arrays.copyOf(key, 16);
+            key = Arrays.copyOf(key, 8);
             secretKey = new SecretKeySpec(key, "DES");
         }
         catch (NoSuchAlgorithmException e) {
@@ -31,8 +33,6 @@ public class DES {
     }
 
     public static String encrypt(String strToEncrypt, String secret, String mode){
-        setKey(secret);
-
         if (mode.equals("ECB")) {
             try
             {
@@ -52,8 +52,12 @@ public class DES {
             try
             {
                 setKey(secret);
+
+                byte[] initializationVector = { 11, 22, 33, 44, 99, 88, 77, 66 };
+                AlgorithmParameterSpec algorithmParameterSpec = new IvParameterSpec(initializationVector);
+
                 Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-                cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+                cipher.init(Cipher.ENCRYPT_MODE, secretKey, algorithmParameterSpec);
                 return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
             }
             catch (Exception e)
@@ -67,7 +71,7 @@ public class DES {
             try
             {
                 setKey(secret);
-                Cipher cipher = Cipher.getInstance("DES/CFB/NoPadding");
+                Cipher cipher = Cipher.getInstance("DES/CFB/PKCS5Padding");
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey);
                 return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
             }
@@ -82,7 +86,7 @@ public class DES {
             try
             {
                 setKey(secret);
-                Cipher cipher = Cipher.getInstance("DES/OFB/NoPadding");
+                Cipher cipher = Cipher.getInstance("DES/OFB/PKCS5Padding");
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey);
                 return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
             }
@@ -97,7 +101,6 @@ public class DES {
     }
 
     public static String decrypt(String strToDecrypt, String secret, String mode){
-        setKey(secret);
 
         if (mode.equals("ECB")) {
             try
@@ -117,10 +120,15 @@ public class DES {
         if (mode.equals("CBC")) {
             try
             {
-                setKey(secret);
+                //setKey(secret);
+
+                byte[] initializationVector = { 11, 22, 33, 44, 99, 88, 77, 66 };
+                AlgorithmParameterSpec algorithmParameterSpec = new IvParameterSpec(initializationVector);
+
                 Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
-                cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-                return Base64.getEncoder().encodeToString(cipher.doFinal(strToDecrypt.getBytes("UTF-8")));
+                cipher.init(Cipher.DECRYPT_MODE, secretKey, algorithmParameterSpec);
+
+                return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
             }
             catch (Exception e)
             {
@@ -133,7 +141,7 @@ public class DES {
             try
             {
                 setKey(secret);
-                Cipher cipher = Cipher.getInstance("DES/CFB/NoPadding");
+                Cipher cipher = Cipher.getInstance("DES/CFB/PKCS5Padding");
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey);
                 return Base64.getEncoder().encodeToString(cipher.doFinal(strToDecrypt.getBytes("UTF-8")));
             }
@@ -148,7 +156,7 @@ public class DES {
             try
             {
                 setKey(secret);
-                Cipher cipher = Cipher.getInstance("DES/OFB/NoPadding");
+                Cipher cipher = Cipher.getInstance("DES/OFB/PKCS5Padding");
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey);
                 return Base64.getEncoder().encodeToString(cipher.doFinal(strToDecrypt.getBytes("UTF-8")));
             }
