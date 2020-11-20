@@ -72,7 +72,6 @@ public class FileUploadController {
 		return "redirect:/status";
 	}
 
-
 	@PostMapping("/d_upload")
 	public String uploadFileD(@ModelAttribute("DES") DESmodel des, RedirectAttributes attributes) throws Exception
 	{

@@ -15,7 +15,6 @@ public class App {
         modos_operacion.add("CFB");
         modos_operacion.add("OFB");
 
-
         for(String modo_operacion : modos_operacion){
             String texto_cifrado= DES.encrypt(texto_en_claro, clave, modo_operacion);
             String texto_descifrado = DES.decrypt(texto_cifrado, clave, modo_operacion);
