@@ -2,6 +2,9 @@ package com.example.demospringfileupload.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import com.example.demospringfileupload.crypto.DES;
 import com.example.demospringfileupload.model.DESmodel;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
 
 @Controller
@@ -53,10 +58,6 @@ public class FileUploadController {
 
 		BufferedImage img = ImageIO.read(aux.getImagen().getInputStream());
 
-		// Guardar imagen ya procesada
-		//File outputfile = new File(builder.toString());
-		//ImageIO.write(img, "bmp", outputfile);
-
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ImageIO.write( img, "bmp", baos );
 		baos.flush();
@@ -74,10 +75,40 @@ public class FileUploadController {
 			}
 		}
 
-		
+		String clave = "abcd1234";
+
+		/*
+		SecretKeySpec secretKey;
+		byte[] key;
+		MessageDigest sha = null;
+		key = clave.getBytes("UTF-8");
+		sha = MessageDigest.getInstance("SHA-1");
+		key = sha.digest(key);
+		key = Arrays.copyOf(key, 8);
+		secretKey = new SecretKeySpec(key, "DES");
 
 
 
+		Cipher cipher = Cipher.getInstance("DES/ECB/NoPadding");
+		cipher.init(Cipher.DECRYPT_MODE, secretKey);
+		*/
+
+		byte[] imageModified = DES.decrypt(encryptedBytes, clave, "OFB");
+
+		for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
+			finalBytes[i] = imageModified[j];
+		}
+
+
+
+
+		// Guardar imagen ya procesada
+		//File outputfile = new File(builder.toString());
+		//ImageIO.write(img, "bmp", outputfile);
+
+		InputStream in = new ByteArrayInputStream(finalBytes);
+		BufferedImage bImageFromConvert = ImageIO.read(in);
+		ImageIO.write(bImageFromConvert, "bmp", new File(builder.toString()));
 
 
 
