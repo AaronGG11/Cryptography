@@ -48,13 +48,6 @@ public class FileUploadController {
 		aux.setCfb(des.getCfb());
 		aux.setOfb(des.getOfb());
 
-		// Making path
-		StringBuilder builder = new StringBuilder();
-		builder.append("..");
-		builder.append(File.separator);
-		builder.append("resultados");
-		builder.append(File.separator);
-
 		// Recibiendo imagen del formulario
 		BufferedImage img = ImageIO.read(aux.getImagen().getInputStream());
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -77,6 +70,13 @@ public class FileUploadController {
 
 		if(aux.getEcb()!=null){
 			byte[] imageModified = DES.encrypt(encryptedBytes, aux.getClave(), "ECB");
+
+			// Making path
+			StringBuilder builder = new StringBuilder();
+			builder.append("..");
+			builder.append(File.separator);
+			builder.append("resultados");
+			builder.append(File.separator);
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_ECB.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
@@ -91,6 +91,13 @@ public class FileUploadController {
 
 		if(aux.getCbc()!=null){
 			byte[] imageModified = DES.encrypt(encryptedBytes, aux.getClave(), "CBC");
+
+			// Making path
+			StringBuilder builder = new StringBuilder();
+			builder.append("..");
+			builder.append(File.separator);
+			builder.append("resultados");
+			builder.append(File.separator);
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_CBC.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
@@ -105,6 +112,13 @@ public class FileUploadController {
 
 		if(aux.getCfb()!=null){
 			byte[] imageModified = DES.encrypt(encryptedBytes, aux.getClave(), "CFB");
+
+			// Making path
+			StringBuilder builder = new StringBuilder();
+			builder.append("..");
+			builder.append(File.separator);
+			builder.append("resultados");
+			builder.append(File.separator);
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_CFB.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
@@ -119,6 +133,13 @@ public class FileUploadController {
 
 		if(aux.getOfb()!=null){
 			byte[] imageModified = DES.encrypt(encryptedBytes, aux.getClave(), "OFB");
+
+			// Making path
+			StringBuilder builder = new StringBuilder();
+			builder.append("..");
+			builder.append(File.separator);
+			builder.append("resultados");
+			builder.append(File.separator);
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_OFB.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
@@ -158,13 +179,6 @@ public class FileUploadController {
 		aux.setCfb(des.getCfb());
 		aux.setOfb(des.getOfb());
 
-		// Making path
-		StringBuilder builder = new StringBuilder();
-		builder.append("..");
-		builder.append(File.separator);
-		builder.append("resultados");
-		builder.append(File.separator);
-
 		// Recibiendo imagen del formulario
 		BufferedImage img = ImageIO.read(aux.getImagen().getInputStream());
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -187,6 +201,13 @@ public class FileUploadController {
 
 		if(aux.getEcb()!=null){
 			byte[] imageModified = DES.decrypt(encryptedBytes, aux.getClave(), "ECB");
+
+			// Making path
+			StringBuilder builder = new StringBuilder();
+			builder.append("..");
+			builder.append(File.separator);
+			builder.append("resultados");
+			builder.append(File.separator);
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_D_ECB.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
@@ -201,6 +222,13 @@ public class FileUploadController {
 
 		if(aux.getCbc()!=null){
 			byte[] imageModified = DES.decrypt(encryptedBytes, aux.getClave(), "CBC");
+
+			// Making path
+			StringBuilder builder = new StringBuilder();
+			builder.append("..");
+			builder.append(File.separator);
+			builder.append("resultados");
+			builder.append(File.separator);
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_CBC.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
@@ -215,6 +243,13 @@ public class FileUploadController {
 
 		if(aux.getCfb()!=null){
 			byte[] imageModified = DES.decrypt(encryptedBytes, aux.getClave(), "CFB");
+
+			// Making path
+			StringBuilder builder = new StringBuilder();
+			builder.append("..");
+			builder.append(File.separator);
+			builder.append("resultados");
+			builder.append(File.separator);
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_CFB.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
@@ -229,6 +264,13 @@ public class FileUploadController {
 
 		if(aux.getOfb()!=null){
 			byte[] imageModified = DES.decrypt(encryptedBytes, aux.getClave(), "OFB");
+
+			// Making path
+			StringBuilder builder = new StringBuilder();
+			builder.append("..");
+			builder.append(File.separator);
+			builder.append("resultados");
+			builder.append(File.separator);
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_OFB.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
