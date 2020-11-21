@@ -250,7 +250,7 @@ public class FileUploadController {
 			builder.append(File.separator);
 			builder.append("resultados");
 			builder.append(File.separator);
-			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_d_CFB.bmp"));
+			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_D_CFB.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
 				finalBytes[i] = imageModified[j];
