@@ -76,9 +76,8 @@ public class FileUploadController {
 			}
 		}
 
-
 		if(aux.getEcb()){
-			byte[] imageModified = DES.encrypt(encryptedBytes, clave, "ECB");
+			byte[] imageModified = DES.encrypt(encryptedBytes, aux.getClave(), "ECB");
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_ECB.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
@@ -92,7 +91,7 @@ public class FileUploadController {
 		}
 
 		if(aux.getCbc()){
-			byte[] imageModified = DES.encrypt(encryptedBytes, clave, "CBC");
+			byte[] imageModified = DES.encrypt(encryptedBytes, aux.getClave(), "CBC");
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_CBC.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
@@ -106,7 +105,7 @@ public class FileUploadController {
 		}
 
 		if(aux.getCfb()){
-			byte[] imageModified = DES.encrypt(encryptedBytes, clave, "CFB");
+			byte[] imageModified = DES.encrypt(encryptedBytes, aux.getClave(), "CFB");
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_CFB.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
@@ -120,7 +119,7 @@ public class FileUploadController {
 		}
 
 		if(aux.getOfb()){
-			byte[] imageModified = DES.encrypt(encryptedBytes, clave, "OFB");
+			byte[] imageModified = DES.encrypt(encryptedBytes, aux.getClave(), "OFB");
 			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_OFB.bmp"));
 
 			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
