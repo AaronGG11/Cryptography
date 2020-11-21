@@ -93,7 +93,7 @@ public class FileUploadController {
 		cipher.init(Cipher.DECRYPT_MODE, secretKey);
 		*/
 
-		byte[] imageModified = DES.decrypt(encryptedBytes, clave, "OFB");
+		byte[] imageModified = DES.encrypt(encryptedBytes, clave, "ECB");
 
 		for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
 			finalBytes[i] = imageModified[j];
