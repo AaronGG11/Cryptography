@@ -38,7 +38,8 @@ public class FileUploadController {
 	@PostMapping("/e_upload")
 	public String uploadFileE(@ModelAttribute("DES") DESmodel des, RedirectAttributes attributes) throws Exception
 	{
-		 Integer header_size = 54;
+		Integer header_size = 54;
+		String clave = "abcd1234";
 
 		DESmodel aux = new DESmodel();
 		aux.setImagen(des.getImagen());
@@ -54,10 +55,9 @@ public class FileUploadController {
 		builder.append(File.separator);
 		builder.append("resultados");
 		builder.append(File.separator);
-		builder.append("img_saved.bmp");
 
+		// Recibiendo imagen del formulario
 		BufferedImage img = ImageIO.read(aux.getImagen().getInputStream());
-
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ImageIO.write( img, "bmp", baos );
 		baos.flush();
@@ -67,6 +67,7 @@ public class FileUploadController {
 		byte[] finalBytes = new byte[(int)imageInByte.length];
 		byte[] encryptedBytes = new byte[(int)imageInByte.length - header_size];
 
+		// Trabajando cabecera y payload
 		for(int i = 0, j=0 ; i < imageInByte.length; i++) {
 			if(i < header_size) {
 				finalBytes[i] = imageInByte[i];
@@ -75,46 +76,73 @@ public class FileUploadController {
 			}
 		}
 
-		String clave = "abcd1234";
 
-		/*
-		SecretKeySpec secretKey;
-		byte[] key;
-		MessageDigest sha = null;
-		key = clave.getBytes("UTF-8");
-		sha = MessageDigest.getInstance("SHA-1");
-		key = sha.digest(key);
-		key = Arrays.copyOf(key, 8);
-		secretKey = new SecretKeySpec(key, "DES");
+		if(aux.getEcb()){
+			byte[] imageModified = DES.encrypt(encryptedBytes, clave, "ECB");
+			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_ECB.bmp"));
 
+			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
+				finalBytes[i] = imageModified[j];
+			}
 
-
-		Cipher cipher = Cipher.getInstance("DES/ECB/NoPadding");
-		cipher.init(Cipher.DECRYPT_MODE, secretKey);
-		*/
-
-		byte[] imageModified = DES.encrypt(encryptedBytes, clave, "ECB");
-
-		for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
-			finalBytes[i] = imageModified[j];
+			// Guardar imagen ya procesada
+			InputStream in = new ByteArrayInputStream(finalBytes);
+			BufferedImage bImageFromConvert = ImageIO.read(in);
+			ImageIO.write(bImageFromConvert, "bmp", new File(builder.toString()));
 		}
 
+		if(aux.getCbc()){
+			byte[] imageModified = DES.encrypt(encryptedBytes, clave, "CBC");
+			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_CBC.bmp"));
 
+			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
+				finalBytes[i] = imageModified[j];
+			}
 
+			// Guardar imagen ya procesada
+			InputStream in = new ByteArrayInputStream(finalBytes);
+			BufferedImage bImageFromConvert = ImageIO.read(in);
+			ImageIO.write(bImageFromConvert, "bmp", new File(builder.toString()));
+		}
 
-		// Guardar imagen ya procesada
-		//File outputfile = new File(builder.toString());
-		//ImageIO.write(img, "bmp", outputfile);
+		if(aux.getCfb()){
+			byte[] imageModified = DES.encrypt(encryptedBytes, clave, "CFB");
+			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_CFB.bmp"));
 
-		InputStream in = new ByteArrayInputStream(finalBytes);
-		BufferedImage bImageFromConvert = ImageIO.read(in);
-		ImageIO.write(bImageFromConvert, "bmp", new File(builder.toString()));
+			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
+				finalBytes[i] = imageModified[j];
+			}
 
+			// Guardar imagen ya procesada
+			InputStream in = new ByteArrayInputStream(finalBytes);
+			BufferedImage bImageFromConvert = ImageIO.read(in);
+			ImageIO.write(bImageFromConvert, "bmp", new File(builder.toString()));
+		}
 
+		if(aux.getOfb()){
+			byte[] imageModified = DES.encrypt(encryptedBytes, clave, "OFB");
+			builder.append(aux.getImagen().getOriginalFilename().replace(".bmp","_E_OFB.bmp"));
 
+			for(int i = header_size, j = 0; i < imageInByte.length; i++, j++) {
+				finalBytes[i] = imageModified[j];
+			}
 
-		attributes.addFlashAttribute("message", "Archivo descifrado correctamente ");
-		attributes.addFlashAttribute("content", imageInByte);
+			// Guardar imagen ya procesada
+			InputStream in = new ByteArrayInputStream(finalBytes);
+			BufferedImage bImageFromConvert = ImageIO.read(in);
+			ImageIO.write(bImageFromConvert, "bmp", new File(builder.toString()));
+		}
+
+		attributes.addFlashAttribute("message", "Archivo cifrado correctamente ");
+		attributes.addFlashAttribute("content",
+				"Cifrado: Clave: " +
+						aux.getClave() +
+						", Modos de operación usados: " +
+						", ECB: " + aux.getEcb() +
+						", CBC: " + aux.getCbc() +
+						", CFB: " + aux.getCfb() +
+						", OFB: " + aux.getOfb()
+				);
 
 		return "redirect:/status";
 	}
