@@ -1,6 +1,7 @@
 package com.example.demospringfileupload.controller;
 
 import java.io.*;
+import java.security.GeneralSecurityException;
 
 import com.example.demospringfileupload.crypto.RSA;
 import model.RSAmodel;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.crypto.Cipher;
 
 @Controller
 public class FileUploadController {
@@ -45,6 +48,8 @@ public class FileUploadController {
 		builder.append(rsa_model.getTexto().getOriginalFilename().replace(".txt","_C.txt"));
 
 		// Section encryption
+
+			// Get plain text
 		String plain_text = new String(rsa_model.getTexto().getBytes());
 
 			// Tnstantiate class
@@ -93,14 +98,37 @@ public class FileUploadController {
 
 		// Section decryption
 
+			// Get cipher text
+		String cipher_text = new String(rsa_model.getTexto().getBytes());
 
-		// writing the file
+			// Tnstantiate class
+		RSA rsa = new RSA();
+
+			// Get private key
+		rsa.openFromParameterPrivateKey(rsa_model.getClave());
+
+			// Decrypt cipher text
+
+		try{
+			String decipher_text = rsa.Decrypt(cipher_text);
+
+			// writing the file
+			File archivo = new File(builder.toString());
+			BufferedWriter bw;
+			bw = new BufferedWriter(new FileWriter(archivo));
+			bw.write(decipher_text);
+			bw.close();
+
+			// Sending status operation
+			attributes.addFlashAttribute("message", "Archivo descifrado correctamente ["+builder.toString()+"]");
+			attributes.addFlashAttribute("content", decipher_text);
+		}catch (GeneralSecurityException gse){
+			// Sending status operation
+			attributes.addFlashAttribute("message", "Archivo descifrado correctamente ["+builder.toString()+"]");
+			attributes.addFlashAttribute("content", "Texto cifrado corrupto");
+		}
 
 
-
-		// Sending status operation
-		attributes.addFlashAttribute("message", "Archivo descifrado correctamente ["+builder.toString()+"]");
-		//attributes.addFlashAttribute("content", decryptedString);
 
 		return "redirect:/status";
 	}
