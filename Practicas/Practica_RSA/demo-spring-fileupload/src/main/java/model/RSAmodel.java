@@ -1,6 +1,7 @@
 package model;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Setter
@@ -9,8 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 
 public class RSAmodel {
-    private String texto;
-    private String clave;
+    private MultipartFile texto;
+    private MultipartFile clave;
 }
 
 

@@ -12,20 +12,34 @@
 </head>
 
 <body>
-
-    <div class="jumbotron text-center" style="margin-bottom:0; background-color: rgba(255, 0, 0, 0.3);">
+    <div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(255, 0, 0, 0.3);">
         <h1>Cryptography 3CM3</h1>
         <p>Profesor - Nidia Asunci&oacute;n Cortez Duarte</p>
         <p>Práctica #3 - RSA</p>
-        <p>Alumno - Aar&oacute;n Antonio Garc&iacute;a Gonz&aacute;lez</p>
+        <p>Aar&oacute;n Antonio Garc&iacute;a Gonz&aacute;lez</p>
+        <h2>Cifrador RSA</h2>
     </div>
+    <form action="#" th:action="@{/e_upload}" th:object="${AES}" method="post" class="container" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label for="texto" class="col-sm-2 col-form-label">Texto: </label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control-file" id="texto" name="texto" accept="text/plain" th:object="${texto}">
+            </div>
+        </div>
 
-    <div class="container text-center">
-        <h2>Cifrar</h2>
-        <form action="/e_upload" method="POST" enctype="multipart/form-data">
-            <input type="file" name="file"/><br><br>
-            <input type="submit" class="btn btn-outline-danger btn-block" value="Cargar"/>
-        </form>
-    </div><br>
+        <div class="form-group row">
+            <label for="clave" class="col-sm-2 col-form-label">Clave: </label>
+            <div class="col-sm-10">
+                <input type="file" class="form-control-file" id="clave" name="clave" accept="text/plain" th:object="${clave}">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <input type="submit" class="btn btn-outline-danger btn-block" value="Cifrar"/>
+            </div>
+        </div>
+
+    </form>
 </body>
 </html>

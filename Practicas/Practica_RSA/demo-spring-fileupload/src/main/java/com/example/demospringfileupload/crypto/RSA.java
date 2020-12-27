@@ -1,5 +1,7 @@
 package com.example.demospringfileupload.crypto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 
@@ -135,6 +137,16 @@ public class RSA {
         } catch (Exception e) {
             // TODO: handle exception
         }
+    }
+
+    public void openFromParameterPublicKey(MultipartFile clave) throws InvalidKeySpecException, NoSuchAlgorithmException, IOException {
+        String content = new String(clave.getBytes());
+        this.setPublicKeyString(content);
+    }
+
+    public void openFromParameterPrivateKey(MultipartFile clave) throws InvalidKeySpecException, NoSuchAlgorithmException, IOException {
+        String content = new String(clave.getBytes());
+        this.setPrivateKeyString(content);
     }
 
     public void openFromDiskPublicKey(String path) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
