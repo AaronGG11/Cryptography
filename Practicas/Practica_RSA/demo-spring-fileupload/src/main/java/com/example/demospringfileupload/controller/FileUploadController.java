@@ -32,11 +32,11 @@ public class FileUploadController {
 
 		// Making path
 		StringBuilder builder = new StringBuilder();
-		builder.append(System.getProperty("user.home"));
+		builder.append("..");
 		builder.append(File.separator);
-		builder.append("Ejemplos");
+		builder.append("resultados");
 		builder.append(File.separator);
-		builder.append(file.getOriginalFilename().replace(".","_C."));
+		builder.append(file.getOriginalFilename().replace(".txt","_C.txt"));
 
 		// Section encryption
 
@@ -63,11 +63,11 @@ public class FileUploadController {
 
 		// Makinh path
 		StringBuilder builder = new StringBuilder();
-		builder.append(System.getProperty("user.home"));
+		builder.append("..");
 		builder.append(File.separator);
-		builder.append("Ejemplos");
+		builder.append("resultados");
 		builder.append(File.separator);
-		builder.append(file.getOriginalFilename().replace("_C.","_D."));
+		builder.append(file.getOriginalFilename().replace(".txt","_D.txt"));
 
 		// Section decryption
 
