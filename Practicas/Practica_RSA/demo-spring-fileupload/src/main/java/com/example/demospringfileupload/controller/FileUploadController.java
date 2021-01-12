@@ -28,7 +28,7 @@ public class FileUploadController {
 	}
 
 	@PostMapping("/e_upload")
-	public String uploadFileE(@ModelAttribute("RSA") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
+	public String uploadFileE(@ModelAttribute("rsa_model") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
 	{
 		// Verifying files
 		if(rsa_model.getTexto() == null || rsa_model.getTexto().isEmpty() ){
@@ -77,7 +77,8 @@ public class FileUploadController {
 
 
 	@PostMapping("/d_upload")
-	public String uploadFileD(@ModelAttribute("RSA") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
+
+	public String uploadFileD(@ModelAttribute("rsa_model") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
 	{
 		// Verifying files
 		if(rsa_model.getTexto() == null || rsa_model.getTexto().isEmpty() ){
