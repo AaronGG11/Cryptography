@@ -17,6 +17,11 @@ import javax.crypto.Cipher;
 
 @Controller
 public class FileUploadController {
+	@GetMapping("/")
+	public String index() {
+		return "index";
+	}
+
 	@GetMapping("/encrypt")
 	public String encrypt() {
 		return "encrypt";
