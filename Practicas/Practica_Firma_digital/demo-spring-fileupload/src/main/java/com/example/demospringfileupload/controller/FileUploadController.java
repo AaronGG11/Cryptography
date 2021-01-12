@@ -4,30 +4,26 @@ import java.io.*;
 import java.security.GeneralSecurityException;
 
 import com.example.demospringfileupload.crypto.RSA;
-import model.RSAmodel;
+import com.example.demospringfileupload.model.RSAmodel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.crypto.Cipher;
 
 @Controller
 public class FileUploadController {
-	@GetMapping("/encrypt")
+	@GetMapping("/sign")
 	public String encrypt() {
-		return "encrypt";
+		return "sign";
 	}
 
-	@GetMapping("/decrypt")
+	@GetMapping("/verify")
 	public String decrypt() {
-		return "decrypt";
+		return "verify";
 	}
 
-	@PostMapping("/e_upload")
+	@PostMapping("/s_upload")
 	public String uploadFileE(@ModelAttribute("rsa_model") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
 	{
 		// Verifying files
@@ -76,7 +72,7 @@ public class FileUploadController {
 	}
 
 
-	@PostMapping("/d_upload")
+	@PostMapping("/v_upload")
 
 	public String uploadFileD(@ModelAttribute("rsa_model") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
 	{

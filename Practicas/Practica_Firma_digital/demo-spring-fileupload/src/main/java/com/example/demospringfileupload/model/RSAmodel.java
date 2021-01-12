@@ -1,4 +1,4 @@
-package model;
+package com.example.demospringfileupload.model;
 
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;

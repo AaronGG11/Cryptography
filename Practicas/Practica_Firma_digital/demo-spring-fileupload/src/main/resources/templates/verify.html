@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
   <title>RSA</title>
   <meta charset="utf-8">
@@ -12,14 +13,15 @@
 </head>
 
 <body>
-    <div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(255, 0, 0, 0.3);">
+    <div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(130,209,87,0.38);">
         <h1>Cryptography 3CM3</h1>
         <p>Profesor - Nidia Asunci&oacute;n Cortez Duarte</p>
-        <p>Práctica #3 - RSA</p>
-        <p>Aar&oacute;n Antonio Garc&iacute;a Gonz&aacute;lez</p>
-        <h2>Cifrador RSA</h2>
+        <p>Práctica #4 - Firma digital</p>
+        <p>Alumno #1- Aar&oacute;n Antonio Garc&iacute;a Gonz&aacute;lez</p>
+        <p>Alumno #2 - Brian Gonzalez Amaro</p>
+        <h2>Verificar</h2>
     </div>
-    <form action="#" th:action="@{/e_upload}" th:object="${rsa_model}" method="post" class="container" enctype="multipart/form-data">
+    <form action="#" th:action="@{/v_upload}" th:object="${rsa_model}" method="post" class="container" enctype="multipart/form-data">
         <div class="form-group row">
             <label for="texto" class="col-sm-2 col-form-label">Texto: </label>
             <div class="col-sm-10">
@@ -36,10 +38,17 @@
 
         <div class="form-group row">
             <div class="col-sm-12">
-                <input type="submit" class="btn btn-outline-danger btn-block" value="Cifrar"/>
+                <input type="submit" class="btn btn-outline-primary btn-block" value="Verificar"/>
             </div>
         </div>
 
     </form>
+
+
+
+
+
+
+
 </body>
 </html>
