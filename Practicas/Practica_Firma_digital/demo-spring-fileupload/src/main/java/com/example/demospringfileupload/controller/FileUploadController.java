@@ -1,10 +1,9 @@
 package com.example.demospringfileupload.controller;
 
 import java.io.*;
-import java.security.GeneralSecurityException;
 
-import com.example.demospringfileupload.crypto.RSA;
 import com.example.demospringfileupload.model.RSAmodel;
+import com.example.demospringfileupload.service.DigitalSignature;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -37,36 +36,25 @@ public class FileUploadController {
 
 		// Making path
 		StringBuilder builder = new StringBuilder();
-		builder.append(".");
+		builder.append("..");
 		builder.append(File.separator);
 		builder.append("resultados");
 		builder.append(File.separator);
-		builder.append(rsa_model.getTexto().getOriginalFilename().replace(".txt","_C.txt"));
+		builder.append(rsa_model.getTexto().getOriginalFilename().replace(".txt","_Signed.txt"));
 
-		// Section encryption
-
-			// Get plain text
-		String plain_text = new String(rsa_model.getTexto().getBytes());
-
-			// Tnstantiate class
-		RSA rsa = new RSA();
-
-			// Get public key
-		rsa.openFromParameterPublicKey(rsa_model.getClave());
-
-			// Encrypt plain text
-		String cipher_text = rsa.Encrypt(plain_text);
+		// Digital signature
+		String digital_signature = DigitalSignature.sign(rsa_model.getTexto(), rsa_model.getClave());
 
 		// writing the file
 		File archivo = new File(builder.toString());
 		BufferedWriter bw;
 		bw = new BufferedWriter(new FileWriter(archivo));
-		bw.write(cipher_text);
+		bw.write(digital_signature);
 		bw.close();
 
 		// Enviar status de operacion
-		attributes.addFlashAttribute("message", "Archivo cifrado correctamente ["+builder.toString()+"]");
-		attributes.addFlashAttribute("content", cipher_text);
+		attributes.addFlashAttribute("message", "Archivo firmado correctamente ["+builder.toString()+"]");
+		attributes.addFlashAttribute("content", digital_signature);
 
 		return "redirect:/status";
 	}
@@ -87,45 +75,22 @@ public class FileUploadController {
 
 		// Makinh path
 		StringBuilder builder = new StringBuilder();
-		builder.append(".");
+		builder.append("..");
 		builder.append(File.separator);
 		builder.append("resultados");
 		builder.append(File.separator);
 		builder.append(rsa_model.getTexto().getOriginalFilename().replace(".txt","_D.txt"));
 
-		// Section decryption
+		// Get verification
+		Boolean is_valid = DigitalSignature.verify(rsa_model.getTexto(), rsa_model.getClave());
 
-			// Get cipher text
-		String cipher_text = new String(rsa_model.getTexto().getBytes());
-
-			// Tnstantiate class
-		RSA rsa = new RSA();
-
-			// Get private key
-		rsa.openFromParameterPrivateKey(rsa_model.getClave());
-
-			// Decrypt cipher text
-
-		try{
-			String decipher_text = rsa.Decrypt(cipher_text);
-
-			// writing the file
-			File archivo = new File(builder.toString());
-			BufferedWriter bw;
-			bw = new BufferedWriter(new FileWriter(archivo));
-			bw.write(decipher_text);
-			bw.close();
-
-			// Sending status operation
-			attributes.addFlashAttribute("message", "Archivo descifrado correctamente ["+builder.toString()+"]");
-			attributes.addFlashAttribute("content", decipher_text);
-		}catch (GeneralSecurityException gse){
-			// Sending status operation
-			attributes.addFlashAttribute("message", "Archivo descifrado correctamente ["+builder.toString()+"]");
-			attributes.addFlashAttribute("content", "Texto cifrado corrupto");
+		if(is_valid){
+			attributes.addFlashAttribute("message", "Autenticación correcta");
+		}else{
+			attributes.addFlashAttribute("message", "Autenticación no correcta");
 		}
 
-
+		attributes.addFlashAttribute("content", "");
 
 		return "redirect:/status";
 	}

@@ -89,7 +89,7 @@ public class RSA {
         byte[] encryptedBytes;
 
         Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.ENCRYPT_MODE, this.PublicKey);
+        cipher.init(Cipher.ENCRYPT_MODE, this.PrivateKey);
         encryptedBytes = cipher.doFinal(plain.getBytes());
 
         return bytesToString(encryptedBytes);
@@ -101,7 +101,7 @@ public class RSA {
         byte[] decryptedBytes;
 
         Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.DECRYPT_MODE, this.PrivateKey);
+        cipher.init(Cipher.DECRYPT_MODE, this.PublicKey);
         decryptedBytes = cipher.doFinal(stringToBytes(result));
         return new String(decryptedBytes);
     }

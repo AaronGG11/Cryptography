@@ -41,7 +41,7 @@ public class FileUploadController {
 
 		// Making path
 		StringBuilder builder = new StringBuilder();
-		builder.append(".");
+		builder.append("..");
 		builder.append(File.separator);
 		builder.append("resultados");
 		builder.append(File.separator);
