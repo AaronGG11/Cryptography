@@ -1,9 +1,41 @@
 Requerimientos de práctica de criptografía híbrida
 
 Mostrar 2 opciones 
-- Cifrar (confidencialidad)
-- Firma y verificacion (autenticacion, integridad y no repudio)
-- Todo, es decir cifrado, decifrado y verifiación (confidencialidad, autenticacion, integridad y no repudio)
+1 - Cifrar (confidencialidad)
+2 - Firma y verificacion (autenticacion, integridad y no repudio)
+3 - Todo, es decir cifrado, decifrado y verifiación (confidencialidad, autenticacion, integridad y no repudio)
+
+Para (1)
+- Para cifrar 
+    - Entrada : texto en claro, la llave compartida
+    - Salida : Archivo de texto cifrado
+- Para descrifrar
+    - Entrada : texto cifrado, llave compartida
+    - Salida : Archivo de texto descifrado
+
+Para (2)
+- Para firmar
+    - Entrada : texto en claro, llave privada del cifrador
+    - Salida : Archivo de texto (texto en claro, firma digital)
+- Para verificar
+    - Entrada : archvio (texto en claro, cadena de firma digital), llave pública del cifrador
+    - Salida : Mensaje con estatus de verifiación 
+
+Para (3)
+Para cifrado y firma digital
+    - Entrada : texto en claro, llave compartida, llave privada del cifrador, llave pública de descifrador
+    - Salida : Archivo de texto (texto cifrado, llave compartida cifrada con RSA, firma digital)
+Para descrifrado y verificación
+    - Entrada : Archivo (texto cifrado, llave compartida cifrada con RSA, firma digital), llave pública del cifrador, lalve privada de descifrador
+    - Salida : Archivo de texto descifrado, Mensaje con estatus de verifiación
+
+
+Sobre las interfaces
+- General o index          --- 1 interfaz 
+- Cifrado y descifrado (1) --- 2 interfaces
+- Firma y verifacion (2)   --- 2 interfaces
+- Todo (3)                 --- 2 interfaces
+
 
 Explicación
 
