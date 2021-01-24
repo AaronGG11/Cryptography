@@ -20,8 +20,11 @@
     <div>
         <div class="card-deck">
             <div class="card">
-                <h5 class="card-title" align="center">Servicio #1</h5>
-                <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5qc-_9x3DUgW5rdQvwCS2YyxeZwUoq_Z4DA&usqp=CAU" alt="Card image cap">
+                <h5 class="card-title" align="center" style="align-content: center">Servicio #1</h5>
+                <div style="margin-left: auto; margin-right: auto; display: block;">
+                    <img class="card-img-top center" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5qc-_9x3DUgW5rdQvwCS2YyxeZwUoq_Z4DA&usqp=CAU" alt="Card image cap" style="width: 200px; height: 200px;">
+                </div>
+
                 <div class="card-body" align="center">
                     <p class="card-title">Confidencialidad</p>
                     <a href="#" th:href="@{/encrypt}" target="_blank" role="button" class="btn btn-danger btn-block">
@@ -34,21 +37,10 @@
             </div>
             <div class="card">
                 <h5 class="card-title" align="center">Servicio #2</h5>
-                <img class="card-img-top" src="https://image.flaticon.com/icons/png/512/1642/1642869.png" alt="Card image cap">
-                <div class="card-body" align="center">
-                    <p class="card-title">Autenticación, integridad y no repudio</p>
-                    <a href="#" th:href="@{/sign}" target="_blank" role="button" class="btn btn-warning btn-block">
-                        Firmar
-                    </a>
-                    <a href="#" th:href="@{/verify}" target="_blank" role="button" class="btn btn-info btn-block">
-                        Verificar
-                    </a>
+                <div style="margin-left: auto; margin-right: auto; display: block;">
+                    <img class="card-img-top center" src="https://healthyhomestraining.com/wp-content/uploads/2020/06/Hybrid-icon.png" alt="Card image cap" style="width: 200px; height: 200px;">
                 </div>
-            </div>
-            <div class="card">
-                <h5 class="card-title" align="center">Servicio #3</h5>
-                <img class="card-img-top" src="https://healthyhomestraining.com/wp-content/uploads/2020/06/Hybrid-icon.png" alt="Card image cap">
-                <div class="card-body">
+                <div class="card-body" align="center">
                     <p class="card-title" align="center">Confidencialidad, autenticación, integridad y no repudio</p>
                     <a href="#" th:href="@{/encrypt_sign}" target="_blank" role="button" class="btn btn-secondary btn-block">
                         Cifrar - Firmar

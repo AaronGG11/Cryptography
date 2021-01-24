@@ -19,28 +19,37 @@
     <p>Práctica #5 - Criptograf&iacute;a h&iacute;brida</p>
     <p>Alumno #1- Aar&oacute;n Antonio Garc&iacute;a Gonz&aacute;lez</p>
     <p>Alumno #2 - Brian Gonzalez Amaro</p>
-    <h2>Verificar</h2>
+    <h2>Verificar y descifrar</h2>
 </div>
 <form action="#" th:action="@{/v_upload}" th:object="${rsa_model}" method="post" class="container" enctype="multipart/form-data">
     <div class="form-group row">
-        <label for="texto" class="col-sm-2 col-form-label">Texto: </label>
-        <div class="col-sm-10">
+        <label for="texto" class="col-sm-3 col-form-label">Archivo: </label>
+        <div class="col-sm-9">
             <input type="file" class="form-control-file" id="texto" name="texto" accept="text/plain" th:object="${texto}">
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="clave" class="col-sm-2 col-form-label">Clave: </label>
-        <div class="col-sm-10">
+        <label for="clave" class="col-sm-3 col-form-label">Clave privada propia: </label>
+        <div class="col-sm-9">
+            <input type="file" class="form-control-file" id="clave" name="clave" accept="text/plain" th:object="${clave}">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="clave" class="col-sm-3 col-form-label">Clave p&uacute;blica externa: </label>
+        <div class="col-sm-9">
             <input type="file" class="form-control-file" id="clave" name="clave" accept="text/plain" th:object="${clave}">
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-sm-12">
-            <input type="submit" class="btn btn-outline-primary btn-block" value="Verificar"/>
+            <input type="submit" class="btn btn-outline-primary btn-block" value="Verificar y descifrar"/>
         </div>
     </div>
+
+
 
 </form>
 

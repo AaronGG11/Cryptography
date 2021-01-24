@@ -12,16 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class CryptController {
-	@GetMapping("/sign")
-	public String sign() {
-		return "sign";
-	}
-
-	@GetMapping("/verify")
-	public String verify() {
-		return "verify";
-	}
-
 	@GetMapping("/encrypt")
 	public String encrypt() {
 		return "encrypt";
