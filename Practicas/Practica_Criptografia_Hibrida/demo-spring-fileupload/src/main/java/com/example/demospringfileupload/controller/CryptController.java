@@ -11,16 +11,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-public class FileUploadController {
+public class CryptController {
 	@GetMapping("/sign")
-	public String encrypt() {
+	public String sign() {
 		return "sign";
 	}
 
 	@GetMapping("/verify")
-	public String decrypt() {
+	public String verify() {
 		return "verify";
 	}
+
+	@GetMapping("/encrypt")
+	public String encrypt() {
+		return "encrypt";
+	}
+
+	@GetMapping("/decrypt")
+	public String decrypt() {
+		return "decrypt";
+	}
+
+	@GetMapping("/encrypt_sign")
+	public String encryptSign() {
+		return "encrypt_sign";
+	}
+
+	@GetMapping("/decrypt_verify")
+	public String decryptVerify() {
+		return "decrypt_verify";
+	}
+
 
 	@PostMapping("/s_upload")
 	public String uploadFileE(@ModelAttribute("rsa_model") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
