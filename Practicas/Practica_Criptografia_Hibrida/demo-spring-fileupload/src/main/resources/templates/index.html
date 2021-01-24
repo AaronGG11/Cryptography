@@ -15,72 +15,48 @@
 <body>
 <div class="container">
     <div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(130,209,87,0.38);">
-        <h1>Cryptography 3CM3</h1>
-        <p>Profesor - Nidia Asunci&oacute;n Cortez Duarte</p>
-        <p>Práctica #5 - Criptogría Híbrida</p>
-        <p>Alumno #1- Aar&oacute;n Antonio Garc&iacute;a Gonz&aacute;lez</p>
-        <p>Alumno #2 - Brian Gonzalez Amaro</p>
-        <h2>Inicio</h2>
+        <h2>Práctica #5 - Criptografía Híbrida</h2>
     </div>
     <div>
-        <h2>Selecciona una operación</h2>
+        <h2 align="center">Selecciona una operación</h2>
 
-
-        <div class="row">
-            <div class="col-sm-4" align="center">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <a href="#" class="card-link">Card link</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="#" class="card-link">Another link</a>
-                        </li>
-                    </ul>
+        <div class="card-deck">
+            <div class="card">
+                <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5qc-_9x3DUgW5rdQvwCS2YyxeZwUoq_Z4DA&usqp=CAU" alt="Card image cap">
+                <div class="card-body" align="center">
+                    <h5 class="card-title">Confidencialidad</h5>
+                    <a href="#" th:href="@{/admin/SellerReport}" target="_blank" role="button" class="btn btn-danger">
+                        Cifrar
+                    </a>
+                    <a href="#" th:href="@{/admin/SellerReport}" target="_blank" role="button" class="btn btn-primary">
+                        Descifrar
+                    </a>
                 </div>
             </div>
-
-            <div class="col-sm-4" align="center">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <a href="#" class="card-link">Card link</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="#" class="card-link">Another link</a>
-                        </li>
-                    </ul>
+            <div class="card">
+                <img class="card-img-top" src="https://image.flaticon.com/icons/png/512/1642/1642869.png" alt="Card image cap">
+                <div class="card-body" align="center">
+                    <h5 class="card-title">Autenticación, integridad y no repudio</h5>
+                    <a href="#" th:href="@{/admin/SellerReport}" target="_blank" role="button" class="btn btn-warning">
+                        Firmar
+                    </a>
+                    <a href="#" th:href="@{/admin/SellerReport}" target="_blank" role="button" class="btn btn-info">
+                        Verificar
+                    </a>
                 </div>
             </div>
-
-            <div class="col-sm-4" align="center">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <a href="#" class="card-link">Card link</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="#" class="card-link">Another link</a>
-                        </li>
-                    </ul>
+            <div class="card">
+                <img class="card-img-top" src="https://healthyhomestraining.com/wp-content/uploads/2020/06/Hybrid-icon.png" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title" align="center">Condidencialidad, autenticación, integridad y no repudio</h5>
+                    <a href="#" th:href="@{/admin/SellerReport}" target="_blank" role="button" class="btn btn-secondary">
+                        Cifrar/Firmar
+                    </a>
+                    <a href="#" th:href="@{/admin/SellerReport}" target="_blank" role="button" class="btn btn-dark">
+                        Descrifrar/Verificar
+                    </a>
                 </div>
             </div>
-
         </div>
 
 
