@@ -18,41 +18,42 @@
         <h2>Práctica #5 - Criptografía Híbrida</h2>
     </div>
     <div>
-        <h2 align="center">Selecciona una operación</h2>
-
         <div class="card-deck">
             <div class="card">
+                <h5 class="card-title" align="center">Servicio #1</h5>
                 <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5qc-_9x3DUgW5rdQvwCS2YyxeZwUoq_Z4DA&usqp=CAU" alt="Card image cap">
                 <div class="card-body" align="center">
-                    <h5 class="card-title">Confidencialidad</h5>
-                    <a href="#" th:href="@{/encryt}" target="_blank" role="button" class="btn btn-danger">
+                    <p class="card-title">Confidencialidad</p>
+                    <a href="#" th:href="@{/encryt}" target="_blank" role="button" class="btn btn-danger btn-block">
                         Cifrar
                     </a>
-                    <a href="#" th:href="@{/decrypt}" target="_blank" role="button" class="btn btn-primary">
+                    <a href="#" th:href="@{/decrypt}" target="_blank" role="button" class="btn btn-primary btn-block">
                         Descifrar
                     </a>
                 </div>
             </div>
             <div class="card">
+                <h5 class="card-title" align="center">Servicio #2</h5>
                 <img class="card-img-top" src="https://image.flaticon.com/icons/png/512/1642/1642869.png" alt="Card image cap">
                 <div class="card-body" align="center">
-                    <h5 class="card-title">Autenticación, integridad y no repudio</h5>
-                    <a href="#" th:href="@{/sign}" target="_blank" role="button" class="btn btn-warning">
+                    <p class="card-title">Autenticación, integridad y no repudio</p>
+                    <a href="#" th:href="@{/sign}" target="_blank" role="button" class="btn btn-warning btn-block">
                         Firmar
                     </a>
-                    <a href="#" th:href="@{/verify}" target="_blank" role="button" class="btn btn-info">
+                    <a href="#" th:href="@{/verify}" target="_blank" role="button" class="btn btn-info btn-block">
                         Verificar
                     </a>
                 </div>
             </div>
             <div class="card">
+                <h5 class="card-title" align="center">Servicio #3</h5>
                 <img class="card-img-top" src="https://healthyhomestraining.com/wp-content/uploads/2020/06/Hybrid-icon.png" alt="Card image cap">
                 <div class="card-body">
-                    <h5 class="card-title" align="center">Condidencialidad, autenticación, integridad y no repudio</h5>
-                    <a href="#" th:href="@{/encrypt_sign}" target="_blank" role="button" class="btn btn-secondary">
+                    <p class="card-title" align="center">Condidencialidad, autenticación, integridad y no repudio</p>
+                    <a href="#" th:href="@{/encrypt_sign}" target="_blank" role="button" class="btn btn-secondary btn-block">
                         Cifrar/Firmar
                     </a>
-                    <a href="#" th:href="@{/decrypt_verify}" target="_blank" role="button" class="btn btn-dark">
+                    <a href="#" th:href="@{/decrypt_verify}" target="_blank" role="button" class="btn btn-dark btn-block">
                         Descrifrar/Verificar
                     </a>
                 </div>
