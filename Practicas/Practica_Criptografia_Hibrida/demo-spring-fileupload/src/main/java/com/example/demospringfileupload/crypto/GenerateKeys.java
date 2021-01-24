@@ -1,5 +1,7 @@
 package com.example.demospringfileupload.crypto;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,7 +29,7 @@ public class GenerateKeys {
         this.llavePublica = llavesAsimetricas.getPublic();
     }
 
-    public void crearArchivosLLave(String path, byte[] llave) throws IOException {
+    public static void crearArchivoLLave(String path, byte[] llave) throws IOException {
         File f = new File(path);
         f.getParentFile().mkdirs();
 
@@ -37,20 +39,6 @@ public class GenerateKeys {
         fos.close();
     }
 
-    public static void main( String[] args ) throws NoSuchAlgorithmException{
-        GenerateKeys gk;
-        try {
-            gk = new GenerateKeys(4096);
-            gk.createKeys();
-            //encoded.- Entre UNICODE y otros tipos de characterEnconding
-            gk.crearArchivosLLave("../KeyPair/publicKey.txt", gk.getLlavePublica().getEncoded());
-            gk.crearArchivosLLave("../KeyPair/privateKey.txt", gk.getLlavePrivada().getEncoded());
-            System.out.println("Llaves generadas");
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-
-    }
 
     public PrivateKey getLlavePrivada() {
         return llavePrivada;

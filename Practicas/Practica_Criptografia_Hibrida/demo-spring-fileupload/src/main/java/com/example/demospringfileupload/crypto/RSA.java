@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -23,11 +22,11 @@ import javax.crypto.NoSuchPaddingException;
 
 import org.apache.commons.codec.binary.Base64;
 
-public class CifradoRSA {
+public class RSA {
     private Cipher cipher;
     private static final String algoritmo = "RSA";
 
-    public CifradoRSA() throws NoSuchAlgorithmException, NoSuchPaddingException {
+    public RSA() throws NoSuchAlgorithmException, NoSuchPaddingException {
         this.cipher = Cipher.getInstance(algoritmo);
     }
 
@@ -101,25 +100,4 @@ public class CifradoRSA {
         return fbytes;
     }
 
-    public static void main(String[] args) throws Exception, NoSuchPaddingException {
-        CifradoRSA cifrador = new CifradoRSA();
-        PrivateKey privateKey = cifrador.getPrivate("KeyPair/privateKey.txt");
-        PublicKey publicKey = cifrador.getPublic("KeyPair/publicKey.txt");
-
-        String msg = "Hola mundo con RSA!";
-        String encrypted_msg = cifrador.encryptText(msg, privateKey);
-        String decrypted_msg = cifrador.decryptText(encrypted_msg, publicKey);
-        System.out.println("Original Message: " + msg +
-                "\nEncrypted Message: " + encrypted_msg
-                + "\nDecrypted Message: " + decrypted_msg);
-
-        if (new File("KeyPair/text.txt").exists()) {
-            cifrador.cifrarArchivo(cifrador.getFileInBytes(new File("KeyPair/text.txt")),
-                    new File("KeyPair/text_encrypted.txt"),privateKey);
-            cifrador.descifrarArchivo(cifrador.getFileInBytes(new File("KeyPair/text_encrypted.txt")),
-                    new File("KeyPair/text_decrypted.txt"), publicKey);
-        } else {
-            System.out.println("Create a file text.txt under folder KeyPair");
-        }
-    }
 }

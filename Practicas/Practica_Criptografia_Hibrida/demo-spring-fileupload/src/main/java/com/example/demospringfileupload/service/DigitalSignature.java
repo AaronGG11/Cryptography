@@ -1,6 +1,6 @@
 package com.example.demospringfileupload.service;
 
-import com.example.demospringfileupload.crypto.CifradoRSA;
+import com.example.demospringfileupload.crypto.RSA;
 import com.google.common.hash.Hashing;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +25,7 @@ public class DigitalSignature {
 
         // RSA encryption step
             // Instantiate class
-        CifradoRSA cifrador = new CifradoRSA();
+        RSA cifrador = new RSA();
 
             // Set private key
         PrivateKey privateKey = cifrador.getPrivate2(key.getBytes());
@@ -59,7 +59,7 @@ public class DigitalSignature {
         String sha256hex = Hashing.sha256().hashString(plain_text, StandardCharsets.UTF_8).toString();
 
         // Section decryption RSA
-        CifradoRSA cifrador = new CifradoRSA();
+        RSA cifrador = new RSA();
         PublicKey publicKey = cifrador.getPublic2(key.getBytes());
 
         String decipher_text = cifrador.decryptText(sign_text, publicKey);
