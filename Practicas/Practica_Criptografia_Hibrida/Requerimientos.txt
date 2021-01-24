@@ -1,6 +1,6 @@
 Requerimientos de práctica de criptografía híbrida
 
-Mostrar 2 opciones 
+Opciones
 1 - Cifrar (confidencialidad)
 2 - Firma y verificacion (autenticacion, integridad y no repudio)
 3 - Todo, es decir cifrado, decifrado y verifiación (confidencialidad, autenticacion, integridad y no repudio)
