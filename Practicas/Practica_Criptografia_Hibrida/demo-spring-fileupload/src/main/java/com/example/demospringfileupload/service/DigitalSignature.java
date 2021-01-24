@@ -37,8 +37,6 @@ public class DigitalSignature {
 
         // Join plain text with digital sign
         cipher_text.append(digital_signature);
-        cipher_text.append("\n");
-        cipher_text.append(plain_text);
 
         return cipher_text.toString();
     }

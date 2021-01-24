@@ -21,7 +21,7 @@
     <p>Alumno #2 - Brian Gonzalez Amaro</p>
     <h2>Descifrar</h2>
 </div>
-<form action="#" th:action="@{/v_upload}" th:object="${rsa_model}" method="post" class="container" enctype="multipart/form-data">
+<form action="#" th:action="@{/d_upload}" th:object="${aes_model}" method="post" class="container" enctype="multipart/form-data">
     <div class="form-group row">
         <label for="texto" class="col-sm-2 col-form-label">Texto: </label>
         <div class="col-sm-10">
@@ -38,7 +38,7 @@
 
     <div class="form-group row">
         <div class="col-sm-12">
-            <input type="submit" class="btn btn-outline-primary btn-block" value="Verificar"/>
+            <input type="submit" class="btn btn-outline-primary btn-block" value="Descifrar"/>
         </div>
     </div>
 

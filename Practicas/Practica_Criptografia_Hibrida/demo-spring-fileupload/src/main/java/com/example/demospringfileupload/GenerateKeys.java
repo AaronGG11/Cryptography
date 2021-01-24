@@ -1,17 +1,16 @@
 package com.example.demospringfileupload;
 
-import com.example.demospringfileupload.crypto.GenerateKeys;
+import com.example.demospringfileupload.crypto.Keys;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 
-import static com.example.demospringfileupload.crypto.GenerateKeys.crearArchivoLLave;
+import static com.example.demospringfileupload.crypto.Keys.crearArchivoLLave;
 
-public class App {
+public class GenerateKeys {
     public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
         Boolean generate_symmetric_key = Boolean.TRUE;
         Boolean generate_private_key = Boolean.TRUE;
@@ -23,7 +22,7 @@ public class App {
         path_directory.append("Keys");
         path_directory.append(File.separator);
 
-        GenerateKeys gk;
+        Keys gk;
 
         if(generate_symmetric_key){ // Symmetric key AES
             KeyGenerator keyGen = KeyGenerator.getInstance("AES");
@@ -36,7 +35,7 @@ public class App {
         }
 
         if(generate_private_key || generate_public_key){ // Generate keys
-            gk = new GenerateKeys(1024);
+            gk = new Keys(1024);
             gk.createKeys();
 
             if(generate_private_key){ // Private key RSA

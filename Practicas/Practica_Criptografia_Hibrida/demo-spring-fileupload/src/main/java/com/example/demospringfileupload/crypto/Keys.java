@@ -11,14 +11,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
-public class GenerateKeys {
+public class Keys {
     private static final String algoritmo = "RSA";
     private KeyPairGenerator generadorLlaves;
     private KeyPair llavesAsimetricas;
     private PrivateKey llavePrivada;
     private PublicKey llavePublica;
 
-    public GenerateKeys(int keySize) throws NoSuchAlgorithmException {
+    public Keys(int keySize) throws NoSuchAlgorithmException {
         this.generadorLlaves = KeyPairGenerator.getInstance(algoritmo);
         this.generadorLlaves.initialize(keySize);
     }

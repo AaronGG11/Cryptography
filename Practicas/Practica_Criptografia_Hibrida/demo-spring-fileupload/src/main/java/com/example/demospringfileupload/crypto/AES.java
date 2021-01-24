@@ -1,6 +1,6 @@
 package com.example.demospringfileupload.crypto;
-
 import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -12,6 +12,8 @@ public class AES {
 
     private static SecretKeySpec secretKey;
     private static byte[] key;
+
+    private static final String INIT_VECTOR = "RandomInitVector";
 
     public static void setKey(String myKey)
     {
@@ -35,9 +37,11 @@ public class AES {
     {
         try
         {
+            IvParameterSpec initial_vector = new IvParameterSpec(INIT_VECTOR.getBytes("UTF-8"));
+
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, initial_vector);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
         }
         catch (Exception e)
@@ -51,9 +55,11 @@ public class AES {
     {
         try
         {
+            IvParameterSpec initial_vector = new IvParameterSpec(INIT_VECTOR.getBytes("UTF-8"));
+
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, initial_vector);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         }
         catch (Exception e)
