@@ -123,19 +123,19 @@ public class CryptController {
 
 
 	@PostMapping("/es_upload")
-	public String uploadFileEncryptSign(@ModelAttribute("model") DataComplete rsa_model, RedirectAttributes attributes) throws Exception
+	public String uploadFileEncryptSign(@ModelAttribute("model") DataComplete model, RedirectAttributes attributes) throws Exception
 	{
 		// Verifying files
-		if(rsa_model.getTexto() == null || rsa_model.getTexto().isEmpty() ){
+		if(model.getTexto() == null || model.getTexto().isEmpty() ){
 			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto plano válido.");
 			return "redirect:status";
-		} else if (rsa_model.getClave_simetrica() == null || rsa_model.getClave_simetrica().isEmpty()){
+		} else if (model.getClave_simetrica() == null || model.getClave_simetrica().isEmpty()){
 			attributes.addFlashAttribute("message", "Por favor seleccione una clave simétrica válida.");
 			return "redirect:status";
-		} else if (rsa_model.getClave_privada() == null || rsa_model.getClave_privada().isEmpty()) {
+		} else if (model.getClave_privada() == null || model.getClave_privada().isEmpty()) {
 			attributes.addFlashAttribute("message", "Por favor seleccione una clave privada válida.");
 			return "redirect:status";
-		} else if (rsa_model.getClave_publica() == null || rsa_model.getClave_publica().isEmpty()) {
+		} else if (model.getClave_publica() == null || model.getClave_publica().isEmpty()) {
 			attributes.addFlashAttribute("message", "Por favor seleccione una clave pública válida.");
 			return "redirect:status";
 		}
@@ -146,23 +146,23 @@ public class CryptController {
 		builder.append(File.separator);
 		builder.append("resultados");
 		builder.append(File.separator);
-		builder.append(rsa_model.getTexto().getOriginalFilename().replace(".txt","_SignEncrypt.txt"));
+		builder.append(model.getTexto().getOriginalFilename().replace(".txt","_SignEncrypt.txt"));
 
 		// Digital signature
-		String digital_signature = DigitalSignature.sign(rsa_model.getTexto(), rsa_model.getClave_privada());
+		String digital_signature = DigitalSignature.sign(model.getTexto(), model.getClave_privada());
 
 		// Cipher text with AES CBC MODE 128
-		final String symmetric_key = new String(rsa_model.getClave_simetrica().getBytes(), StandardCharsets.UTF_8);
-		String original_string = new String(rsa_model.getTexto().getBytes(), StandardCharsets.UTF_8);
+		final String symmetric_key = new String(model.getClave_simetrica().getBytes(), StandardCharsets.UTF_8);
+		String original_string = new String(model.getTexto().getBytes(), StandardCharsets.UTF_8);
 		String encrypted_text = AES.encrypt(original_string, symmetric_key);
 
 		// Cipher symmetric key with RSA
-		String sym_key = new String(rsa_model.getClave_simetrica().getBytes(), StandardCharsets.UTF_8);
+		String sym_key = new String(model.getClave_simetrica().getBytes(), StandardCharsets.UTF_8);
 
 		// Instantiate class
 		RSA cifrador = new RSA();
 			// Set private key
-		PublicKey public_key = cifrador.getPublic2(rsa_model.getClave_publica().getBytes());
+		PublicKey public_key = cifrador.getPublic2(model.getClave_publica().getBytes());
 			// encrypt
 		String encrypted_symmetric_key = cifrador.encryptText(sym_key, public_key);
 
@@ -261,5 +261,4 @@ public class CryptController {
 	public String status() {
 		return "status";
 	}
-
 }
