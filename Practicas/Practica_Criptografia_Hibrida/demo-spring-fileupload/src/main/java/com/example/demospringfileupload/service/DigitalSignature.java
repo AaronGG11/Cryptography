@@ -16,8 +16,6 @@ import java.security.PublicKey;
 
 public class DigitalSignature {
     public static String sign(MultipartFile text, MultipartFile key) throws Exception {
-        StringBuilder cipher_text = new StringBuilder();
-
         // Get plain text
         String plain_text = new String(text.getBytes());
         // Hashing step SHA (Secure Hashing Algorithm)
@@ -32,13 +30,8 @@ public class DigitalSignature {
 
             // encrypt
         String digital_signature = cifrador.encryptText(sha256hex, privateKey);
-        System.out.println(digital_signature.length());
-        System.out.println(digital_signature);
 
-        // Join plain text with digital sign
-        cipher_text.append(digital_signature);
-
-        return cipher_text.toString();
+        return digital_signature;
     }
 
 

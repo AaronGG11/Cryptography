@@ -9,9 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class RSAmodel {
+public class DataComplete {
     private MultipartFile texto;
-    private MultipartFile clave;
+    private MultipartFile clave_publica;
+    private MultipartFile clave_privada;
+    private MultipartFile clave_simetrica;
 }
 
 
