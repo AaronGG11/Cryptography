@@ -4,17 +4,20 @@ import com.example.demospringfileupload.crypto.Keys;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 
 import static com.example.demospringfileupload.crypto.Keys.crearArchivoLLave;
 
 public class GenerateKeys {
-    public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
+    public static void main(String[] args) throws NoSuchAlgorithmException, IOException, NoSuchProviderException {
         Boolean generate_symmetric_key = Boolean.TRUE;
-        Boolean generate_private_key = Boolean.TRUE;
-        Boolean generate_public_key = Boolean.TRUE;
+        Boolean generate_asymmetric_key = Boolean.TRUE;
 
         StringBuilder path_directory = new StringBuilder();
         path_directory.append("..");
@@ -22,7 +25,6 @@ public class GenerateKeys {
         path_directory.append("Keys");
         path_directory.append(File.separator);
 
-        Keys gk;
 
         if(generate_symmetric_key){ // Symmetric key AES
             KeyGenerator keyGen = KeyGenerator.getInstance("AES");
@@ -34,20 +36,23 @@ public class GenerateKeys {
 
         }
 
-        if(generate_private_key || generate_public_key){ // Generate keys
-            gk = new Keys(1024);
-            gk.createKeys();
+        if(generate_asymmetric_key){ // Generate keys
+            KeyPairGenerator generator = KeyPairGenerator.getInstance ("RSA");
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
 
-            if(generate_private_key){ // Private key RSA
-                crearArchivoLLave("../Keys/privateKey.txt", gk.getLlavePrivada().getEncoded());
-                System.out.println("LLave privada generada correctamente");
-            }
+            generator.initialize (1024, random);
 
-            if(generate_public_key){ // Public key RSA
-                System.out.println("LLave pública generada correctamente");
-                crearArchivoLLave("../Keys/publicKey.txt", gk.getLlavePublica().getEncoded());
-            }
+            KeyPair pair = generator.generateKeyPair();
+            RSAPrivateKey priv = (RSAPrivateKey)pair.getPrivate();
+            RSAPublicKey pub = (RSAPublicKey)pair.getPublic();
+
+            crearArchivoLLave("../Keys/privateKey.txt", priv.getEncoded());
+            crearArchivoLLave("../Keys/publicKey.txt", pub.getEncoded());
+            System.out.println("LLave privada generada correctamente");
+            System.out.println("LLave pública generada correctamente");
+
         }
+
 
 
 

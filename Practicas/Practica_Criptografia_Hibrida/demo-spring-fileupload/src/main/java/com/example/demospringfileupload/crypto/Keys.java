@@ -1,15 +1,9 @@
 package com.example.demospringfileupload.crypto;
 
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.*;
 
 public class Keys {
     private static final String algoritmo = "RSA";
@@ -20,7 +14,11 @@ public class Keys {
 
     public Keys(int keySize) throws NoSuchAlgorithmException {
         this.generadorLlaves = KeyPairGenerator.getInstance(algoritmo);
-        this.generadorLlaves.initialize(keySize);
+
+        SecureRandom random=SecureRandom.getInstance("SHA1PRNG");
+        random.setSeed(4);   //something device specific will be used to set this
+
+        this.generadorLlaves.initialize(keySize, random);
     }
 
     public void createKeys() {
