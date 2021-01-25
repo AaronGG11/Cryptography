@@ -2,11 +2,15 @@ package com.example.demospringfileupload.controller;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 
 import com.example.demospringfileupload.crypto.AES;
+import com.example.demospringfileupload.crypto.RSA;
 import com.example.demospringfileupload.model.DataModel;
-import com.example.demospringfileupload.model.RSAmodel;
+import com.example.demospringfileupload.model.DataComplete;
 import com.example.demospringfileupload.service.DigitalSignature;
+import com.google.common.hash.Hashing;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,14 +40,14 @@ public class CryptController {
 	}
 
 	@PostMapping("/e_upload")
-	public String uploadFileEncrypt(@ModelAttribute("aes_model") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
+	public String uploadFileEncrypt(@ModelAttribute("aes_model") DataModel model, RedirectAttributes attributes) throws Exception
 	{
 		// Verifying files
-		if(rsa_model.getTexto() == null || rsa_model.getTexto().isEmpty() ){
+		if(model.getTexto() == null || model.getTexto().isEmpty() ){
 			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto a cifrar");
 			return "redirect:status";
-		}else if(rsa_model.getClave() == null || rsa_model.getClave().isEmpty() ){
-			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto con la clave privada");
+		}else if(model.getClave() == null || model.getClave().isEmpty() ){
+			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto con la clave simétrica");
 			return "redirect:status";
 		}
 
@@ -53,39 +57,39 @@ public class CryptController {
 		builder.append(File.separator);
 		builder.append("resultados");
 		builder.append(File.separator);
-		builder.append(rsa_model.getTexto().getOriginalFilename().replace(".txt","_Encrypted.txt"));
+		builder.append(model.getTexto().getOriginalFilename().replace(".txt","_Encrypted.txt"));
 
 
 		// Section encryption
-		final String secretKey = new String(rsa_model.getClave().getBytes(), StandardCharsets.UTF_8);
-		String originalString = new String(rsa_model.getTexto().getBytes(), StandardCharsets.UTF_8);
-		String encryptedString = AES.encrypt(originalString, secretKey);
+		final String symmetric_key = new String(model.getClave().getBytes(), StandardCharsets.UTF_8);
+		String original_string = new String(model.getTexto().getBytes(), StandardCharsets.UTF_8);
+		String encrypted_string = AES.encrypt(original_string, symmetric_key);
 
 
 		// writing the file
 		File archivo = new File(builder.toString());
 		BufferedWriter bw;
 		bw = new BufferedWriter(new FileWriter(archivo));
-		bw.write(encryptedString);
+		bw.write(encrypted_string);
 		bw.close();
 
 		// Enviar status de operacion
 		attributes.addFlashAttribute("message", "Archivo cifrado correctamente ["+builder.toString()+"]");
-		attributes.addFlashAttribute("content", encryptedString);
+		attributes.addFlashAttribute("content", encrypted_string);
 
 		return "redirect:/status";
 	}
 
 
 	@PostMapping("/d_upload")
-	public String uploadFileDecrypt(@ModelAttribute("aes_model") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
+	public String uploadFileDecrypt(@ModelAttribute("aes_model") DataModel model, RedirectAttributes attributes) throws Exception
 	{
 		// Verifying files
-		if(rsa_model.getTexto() == null || rsa_model.getTexto().isEmpty() ){
-			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto a cifrar");
+		if(model.getTexto() == null || model.getTexto().isEmpty() ){
+			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto a descifrar");
 			return "redirect:status";
-		}else if(rsa_model.getClave() == null || rsa_model.getClave().isEmpty() ){
-			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto con la clave privada");
+		}else if(model.getClave() == null || model.getClave().isEmpty() ){
+			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto con la clave simétrica");
 			return "redirect:status";
 		}
 
@@ -95,14 +99,13 @@ public class CryptController {
 		builder.append(File.separator);
 		builder.append("resultados");
 		builder.append(File.separator);
-		builder.append(rsa_model.getTexto().getOriginalFilename().replace(".txt","_Decrypted.txt"));
+		builder.append(model.getTexto().getOriginalFilename().replace(".txt","_Decrypted.txt"));
 
 
 		// Section encryption
-		final String secretKey = new String(rsa_model.getClave().getBytes(), StandardCharsets.UTF_8);
-		String originalString = new String(rsa_model.getTexto().getBytes(), StandardCharsets.UTF_8);
+		final String secretKey = new String(model.getClave().getBytes(), StandardCharsets.UTF_8);
+		String originalString = new String(model.getTexto().getBytes(), StandardCharsets.UTF_8);
 		String encryptedString = AES.decrypt(originalString, secretKey);
-
 
 		// writing the file
 		File archivo = new File(builder.toString());
@@ -119,15 +122,21 @@ public class CryptController {
 	}
 
 
-	@PostMapping("/s_upload")
-	public String uploadFileEncryptSign(@ModelAttribute("rsa_model") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
+	@PostMapping("/es_upload")
+	public String uploadFileEncryptSign(@ModelAttribute("model") DataComplete rsa_model, RedirectAttributes attributes) throws Exception
 	{
 		// Verifying files
 		if(rsa_model.getTexto() == null || rsa_model.getTexto().isEmpty() ){
-			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto a cifrar");
+			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto plano válido.");
 			return "redirect:status";
-		}else if(rsa_model.getClave() == null || rsa_model.getClave().isEmpty() ){
-			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto con la clave privada");
+		} else if (rsa_model.getClave_simetrica() == null || rsa_model.getClave_simetrica().isEmpty()){
+			attributes.addFlashAttribute("message", "Por favor seleccione una clave simétrica válida.");
+			return "redirect:status";
+		} else if (rsa_model.getClave_privada() == null || rsa_model.getClave_privada().isEmpty()) {
+			attributes.addFlashAttribute("message", "Por favor seleccione una clave privada válida.");
+			return "redirect:status";
+		} else if (rsa_model.getClave_publica() == null || rsa_model.getClave_publica().isEmpty()) {
+			attributes.addFlashAttribute("message", "Por favor seleccione una clave pública válida.");
 			return "redirect:status";
 		}
 
@@ -137,59 +146,115 @@ public class CryptController {
 		builder.append(File.separator);
 		builder.append("resultados");
 		builder.append(File.separator);
-		builder.append(rsa_model.getTexto().getOriginalFilename().replace(".txt","_Signed.txt"));
+		builder.append(rsa_model.getTexto().getOriginalFilename().replace(".txt","_SignEncrypt.txt"));
 
 		// Digital signature
-		String digital_signature = DigitalSignature.sign(rsa_model.getTexto(), rsa_model.getClave());
+		String digital_signature = DigitalSignature.sign(rsa_model.getTexto(), rsa_model.getClave_privada());
+
+		// Cipher text with AES CBC MODE 128
+		final String symmetric_key = new String(rsa_model.getClave_simetrica().getBytes(), StandardCharsets.UTF_8);
+		String original_string = new String(rsa_model.getTexto().getBytes(), StandardCharsets.UTF_8);
+		String encrypted_text = AES.encrypt(original_string, symmetric_key);
+
+		// Cipher symmetric key with RSA
+		String sym_key = new String(rsa_model.getClave_simetrica().getBytes(), StandardCharsets.UTF_8);
+
+		// Instantiate class
+		RSA cifrador = new RSA();
+			// Set private key
+		PublicKey public_key = cifrador.getPublic2(rsa_model.getClave_publica().getBytes());
+			// encrypt
+		String encrypted_symmetric_key = cifrador.encryptText(sym_key, public_key);
+
+
+		System.out.println(digital_signature.length() + " : " + digital_signature);
+		System.out.println(encrypted_text.length() + " : " + encrypted_text);
+		System.out.println(encrypted_symmetric_key.length() + " : " + encrypted_symmetric_key);
+
+		String file_to_send = digital_signature + encrypted_symmetric_key + encrypted_text;
 
 		// writing the file
 		File archivo = new File(builder.toString());
 		BufferedWriter bw;
 		bw = new BufferedWriter(new FileWriter(archivo));
-		bw.write(digital_signature);
+		bw.write(file_to_send);
 		bw.close();
 
+
 		// Enviar status de operacion
-		attributes.addFlashAttribute("message", "Archivo firmado correctamente ["+builder.toString()+"]");
-		attributes.addFlashAttribute("content", digital_signature);
+		attributes.addFlashAttribute("message", "Archivo firmado y cifrado correctamente ["+builder.toString()+"]");
+		attributes.addFlashAttribute("content", file_to_send);
 
 		return "redirect:/status";
 	}
 
 
-	@PostMapping("/v_upload")
-
-	public String uploadFileD(@ModelAttribute("rsa_model") RSAmodel rsa_model, RedirectAttributes attributes) throws Exception
+	@PostMapping("/dv_upload")
+	public String uploadFileD(@ModelAttribute("model") DataComplete model, RedirectAttributes attributes) throws Exception
 	{
 		// Verifying files
-		if(rsa_model.getTexto() == null || rsa_model.getTexto().isEmpty() ){
-			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto a cifrar");
+		if(model.getTexto() == null || model.getTexto().isEmpty() ){
+			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto plano válido.");
 			return "redirect:status";
-		}else if(rsa_model.getClave() == null || rsa_model.getClave().isEmpty() ){
-			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto con la clave privada");
+		} else if (model.getClave_privada() == null || model.getClave_privada().isEmpty()) {
+			attributes.addFlashAttribute("message", "Por favor seleccione una clave privada válida.");
+			return "redirect:status";
+		} else if (model.getClave_publica() == null || model.getClave_publica().isEmpty()) {
+			attributes.addFlashAttribute("message", "Por favor seleccione una clave pública válida.");
 			return "redirect:status";
 		}
 
-		// Makinh path
+		// Making path
 		StringBuilder builder = new StringBuilder();
 		builder.append("..");
 		builder.append(File.separator);
 		builder.append("resultados");
 		builder.append(File.separator);
-		builder.append(rsa_model.getTexto().getOriginalFilename().replace(".txt","_D.txt"));
+		builder.append(model.getTexto().getOriginalFilename().replace(".txt","_VerifyDecrypt.txt"));
 
-		// Get verification
-		Boolean is_valid = DigitalSignature.verify(rsa_model.getTexto(), rsa_model.getClave());
+		// separate digital_signature 172, encrypted_symmetric_key 172, encrypted_text
+		String complete_document = new String(model.getTexto().getBytes(), StandardCharsets.UTF_8);
+		String cipher_digital_signature = complete_document.substring(0,172);
+		String cipher_symmetric_key = complete_document.substring(172, 344);
+		String cipher_text = complete_document.substring(344);
 
-		if(is_valid){
-			attributes.addFlashAttribute("message", "Autenticación correcta");
-		}else{
-			attributes.addFlashAttribute("message", "Autenticación no correcta");
+		// Instantiate class
+		RSA cifrador = new RSA();
+		// Set private key
+		PrivateKey private_key = cifrador.getPrivate2(model.getClave_privada().getBytes());
+		// encrypt
+		String decipher_symmetric_key = cifrador.decryptText(cipher_symmetric_key, private_key);
+
+		String decipher_text = AES.decrypt(cipher_text, decipher_symmetric_key);
+		String sha256hex = Hashing.sha256().hashString(decipher_text, StandardCharsets.UTF_8).toString();
+
+		// Set private key
+		PublicKey public_key = cifrador.getPublic2(model.getClave_publica().getBytes());
+
+		String decipher_digital_signature = cifrador.decryptText(cipher_digital_signature, public_key);
+
+		// Verification
+
+		if(decipher_digital_signature.equals(sha256hex)){
+			// writing the file
+			File archivo = new File(builder.toString());
+			BufferedWriter bw;
+			bw = new BufferedWriter(new FileWriter(archivo));
+			bw.write(decipher_text);
+			bw.close();
+
+			// Send operation status
+			attributes.addFlashAttribute("message", "Archivo descifrado correctamente y verificación exitosa ["+builder.toString()+"]");
+			attributes.addFlashAttribute("content", decipher_text);
+
+			return "redirect:/status";
+		} else{
+			// Send operation status
+			attributes.addFlashAttribute("message", "No se generó archivo descrifrado, verificación NO exitosa ");
+			attributes.addFlashAttribute("content", "");
+
+			return "redirect:/status";
 		}
-
-		attributes.addFlashAttribute("content", "");
-
-		return "redirect:/status";
 	}
 
 	@GetMapping("/status")
