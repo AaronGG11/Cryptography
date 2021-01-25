@@ -102,21 +102,29 @@ public class CryptController {
 		builder.append(model.getTexto().getOriginalFilename().replace(".txt","_Decrypted.txt"));
 
 
-		// Section encryption
-		final String secretKey = new String(model.getClave().getBytes(), StandardCharsets.UTF_8);
-		String originalString = new String(model.getTexto().getBytes(), StandardCharsets.UTF_8);
-		String encryptedString = AES.decrypt(originalString, secretKey);
+		try{
+			// Section encryption
+			final String secretKey = new String(model.getClave().getBytes(), StandardCharsets.UTF_8);
+			String originalString = new String(model.getTexto().getBytes(), StandardCharsets.UTF_8);
+			String encryptedString = AES.decrypt(originalString, secretKey);
 
-		// writing the file
-		File archivo = new File(builder.toString());
-		BufferedWriter bw;
-		bw = new BufferedWriter(new FileWriter(archivo));
-		bw.write(encryptedString);
-		bw.close();
+			// writing the file
+			File archivo = new File(builder.toString());
+			BufferedWriter bw;
+			bw = new BufferedWriter(new FileWriter(archivo));
+			bw.write(encryptedString);
+			bw.close();
 
-		// Enviar status de operacion
-		attributes.addFlashAttribute("message", "Archivo descifrado correctamente ["+builder.toString()+"]");
-		attributes.addFlashAttribute("content", encryptedString);
+			// Enviar status de operacion
+			attributes.addFlashAttribute("message", "Archivo descifrado correctamente ["+builder.toString()+"]");
+			attributes.addFlashAttribute("content", encryptedString);
+		}catch (Exception e){
+			// Enviar status de operacion
+			attributes.addFlashAttribute("message", "Archivo no descifrado");
+			attributes.addFlashAttribute("content", "Fallo confidencialidad, clave incorrecta");
+		}
+
+
 
 		return "redirect:/status";
 	}
@@ -192,6 +200,10 @@ public class CryptController {
 	@PostMapping("/dv_upload")
 	public String uploadFileD(@ModelAttribute("model") DataComplete model, RedirectAttributes attributes) throws Exception
 	{
+		Boolean is_ok;
+		StringBuilder message = new StringBuilder();
+
+
 		// Verifying files
 		if(model.getTexto() == null || model.getTexto().isEmpty() ){
 			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto plano válido.");
@@ -218,43 +230,56 @@ public class CryptController {
 		String cipher_symmetric_key = complete_document.substring(172, 344);
 		String cipher_text = complete_document.substring(344);
 
-		// Instantiate class
+
 		RSA cifrador = new RSA();
 		// Set private key
 		PrivateKey private_key = cifrador.getPrivate2(model.getClave_privada().getBytes());
 		// encrypt
+
+
 		String decipher_symmetric_key = cifrador.decryptText(cipher_symmetric_key, private_key);
 
-		String decipher_text = AES.decrypt(cipher_text, decipher_symmetric_key);
+		String decipher_text = null;
+
+		try{
+			decipher_text = AES.decrypt(cipher_text, decipher_symmetric_key);
+		} catch (Exception e){
+			message.append("Fallo servicio de integridad de datos");
+		}
+
 		String sha256hex = Hashing.sha256().hashString(decipher_text, StandardCharsets.UTF_8).toString();
 
 		// Set private key
 		PublicKey public_key = cifrador.getPublic2(model.getClave_publica().getBytes());
 
-		String decipher_digital_signature = cifrador.decryptText(cipher_digital_signature, public_key);
+		String decipher_digital_signature = null;
+		try{
+			decipher_digital_signature = decipher_digital_signature = cifrador.decryptText(cipher_digital_signature, public_key);
+		} catch (Exception e){
+			message.append("Fallo servicio de autenticación");
+		}
 
 		// Verification
+		if(decipher_digital_signature != null && decipher_text != null && sha256hex != null) {
 
-		if(decipher_digital_signature.equals(sha256hex)){
-			// writing the file
-			File archivo = new File(builder.toString());
-			BufferedWriter bw;
-			bw = new BufferedWriter(new FileWriter(archivo));
-			bw.write(decipher_text);
-			bw.close();
 
-			// Send operation status
-			attributes.addFlashAttribute("message", "Archivo descifrado correctamente y verificación exitosa ["+builder.toString()+"]");
-			attributes.addFlashAttribute("content", decipher_text);
+			if (decipher_digital_signature.equals(sha256hex)) {
+				// writing the file
+				File archivo = new File(builder.toString());
+				BufferedWriter bw;
+				bw = new BufferedWriter(new FileWriter(archivo));
+				bw.write(decipher_text);
+				bw.close();
 
-			return "redirect:/status";
-		} else{
-			// Send operation status
-			attributes.addFlashAttribute("message", "No se generó archivo descrifrado, verificación NO exitosa ");
-			attributes.addFlashAttribute("content", "");
-
-			return "redirect:/status";
+				message.append("Se descifro y verifo correctamente, archivo almacenado en: " + builder.toString());
+			}
 		}
+
+
+		// Send operation status
+		attributes.addFlashAttribute("message", message.toString());
+		attributes.addFlashAttribute("content", "");
+		return "redirect:/status";
 	}
 
 	@GetMapping("/status")
