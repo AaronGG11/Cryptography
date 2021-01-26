@@ -247,9 +247,17 @@ public class CryptController {
 			message.append("Fallo servicio de integridad de datos");
 		}
 
-		String sha256hex = Hashing.sha256().hashString(decipher_text, StandardCharsets.UTF_8).toString();
+		String sha256hex = null;
+
+		try{
+			sha256hex = Hashing.sha256().hashString(decipher_text, StandardCharsets.UTF_8).toString();
+		}catch (Exception e){
+			message.append("Fallo servicio de integridad de datos");
+		}
+
 
 		// Set private key
+
 		PublicKey public_key = cifrador.getPublic2(model.getClave_publica().getBytes());
 
 		String decipher_digital_signature = null;
